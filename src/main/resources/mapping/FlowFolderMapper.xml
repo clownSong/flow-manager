@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.FlowFolderMapper">
+    <resultMap id="flowFolder" type="com.song.entity.FlowFolder">
+        <id column="id" property="id" jdbcType="VARCHAR"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"></result>
+        <result column="root" property="root" jdbcType="VARCHAR"></result>
+        <result column="remark" property="remark" jdbcType="VARCHAR"></result>
+        <result column="sort" property="sort" jdbcType="INTEGER"></result>
+        <result column="datetime" property="datetime" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <insert id="insert">
+        insert into sdb_flow_folder (id,name,parent_id,root,remark,sort,datetime)
+        values (#{id},#{name},#{parentId},#{root},#{remark},#{sort},#{datetime})
+    </insert>
+    <update id="update">
+        update sdb_flow_folder set name=#{name},parent_id=#{parentId},root=#{root},remark=#{remark},sort=#{sort} where id=#{id};
+    </update>
+    <delete id="delete">
+        delete from sdb_flow_folder where id=#{id};
+    </delete>
+    <select id="queryById" resultMap="flowFolder">
+        select * from sdb_flow_folder where id=#{id};
+    </select>
+    <select id="queryRoot" resultMap="flowFolder">
+        select * from sdb_flow_folder where parent_id is null;
+    </select>
+    <select id="queryFolder" resultMap="flowFolder">
+        select * from sdb_flow_folder where parent_id=#{parentId};
+    </select>
+    <select id="queryByName" resultMap="flowFolder">
+        select * from sdb_flow_folder where name=#{folderName};
+    </select>
+    <select id="queryMaxSort" resultType="Integer">
+        select MAX(sort) from sdb_flow_folder
+        <if test="parentId != null">
+            where parent_id=#{parentId}
+        </if>
+    </select>
+</mapper>
