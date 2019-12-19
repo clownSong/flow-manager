@@ -3,6 +3,7 @@ package com.song.mapper;
 import com.song.entity.FlowFolder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @author XiaoSong
  * @date 2019-12-18 13:09
  */
+@Repository
 @Mapper
 public interface FlowFolderMapper {
     /**

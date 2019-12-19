@@ -21,7 +21,7 @@ public class Flow extends BaseEntity {
     /**
      * 流程目录
      */
-    private FlowFolder fodler;
+    private FlowFolder folder;
     /**
      * 流程添加时间
      */
@@ -30,6 +30,14 @@ public class Flow extends BaseEntity {
      * 流程添加人员id+人员名称
      */
     private String person;
+    /**
+     * 查询排序
+     */
+    private Integer sort;
+    /**
+     * 是否停用，0=停用，1=启用
+     */
+    private boolean isStop;
 
     public String getName() {
         return name;
@@ -55,12 +63,12 @@ public class Flow extends BaseEntity {
         this.viewId = viewId;
     }
 
-    public FlowFolder getFodler() {
-        return fodler;
+    public FlowFolder getFolder() {
+        return folder;
     }
 
-    public void setFodler(FlowFolder fodler) {
-        this.fodler = fodler;
+    public void setFolder(FlowFolder folder) {
+        this.folder = folder;
     }
 
     public String getDatetime() {
@@ -77,5 +85,21 @@ public class Flow extends BaseEntity {
 
     public void setPerson(String person) {
         this.person = person;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public boolean isStop() {
+        return isStop;
+    }
+
+    public void setStop(boolean stop) {
+        isStop = stop;
     }
 }

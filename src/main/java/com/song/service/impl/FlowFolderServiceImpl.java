@@ -73,6 +73,10 @@ public class FlowFolderServiceImpl implements FlowFolderService {
         return flowFolderMapper.queryByName(folderName);
     }
 
+    @Override
+    public Integer getMaxSort(String parentId) {
+        return flowFolderMapper.queryMaxSort(parentId);
+    }
     private Map<String, Object> verify(final FlowFolder flowFolder) {
         Map<String, Object> verifyResult = new HashMap<>(4);
         verifyResult.put("name", "目录名称不能为空");
@@ -136,14 +140,6 @@ public class FlowFolderServiceImpl implements FlowFolderService {
         }
     }
 
-    /**
-     * 获取目录排序最大序号
-     *
-     * @return
-     */
-    private Integer getMaxSort(String parentId) {
-        return flowFolderMapper.queryMaxSort(parentId);
-    }
 
     /**
      * 设置目录对象root值，此方法需要对象id不能为null

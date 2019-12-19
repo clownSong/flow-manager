@@ -66,4 +66,12 @@ public interface FlowFolderService {
      * @return 不存在返回null
      */
     FlowFolder queryByName(String folderName);
+
+    /**
+     * 获取目录排序最大序号
+     *
+     * @param parentId 可指定上级目录id，不指定时传null
+     * @return
+     */
+    Integer getMaxSort(String parentId);
 }

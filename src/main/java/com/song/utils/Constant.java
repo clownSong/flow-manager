@@ -37,4 +37,8 @@ public class Constant {
      * 数据库字符串长度：1000
      */
     public static final int DATABASE_VARCHAR_LENGTH_8000 = 8000;
+    /**
+     * 数据库字符串场地：200
+     */
+    public static final int DATABASE_VARCHAR_LENGTH_200 = 200;
 }

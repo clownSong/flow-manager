@@ -22,15 +22,15 @@ public class FlowFolderServiceTest extends FlowManagerApplicationTest {
         flowFolder.setName("测试子目录2");
         flowFolder.setParentId("4b1f0d0e-aca6-4ef2-bfa3-b77daf6fb1ea");
         System.out.println(flowFolder.getName().length());
-        System.out.println(JSON.toJSONString(flowFolderService.insert(flowFolder)));
+        System.out.println(JSON.toJSONString(flowFolderService.insert(null)));
     }
 
     @Test
     public void update() {
         FlowFolder flowFolder = new FlowFolder();
-        flowFolder.setId("5742d495-a099-4b17-a193-02eff158ba59");
-        flowFolder.setName("测试子目录-修改为子子目录");
-        flowFolder.setParentId("4b1f0d0e-aca6-4ef2-bfa3-b77daf6fb1ea");
+        flowFolder.setId("bef35ce4-a009-4877-b3d8-d1309d945717");
+        flowFolder.setName("测试目录2");
+        flowFolder.setSort(0);
         System.out.println(JSON.toJSONString(flowFolderService.update(flowFolder)));
     }
 
@@ -38,9 +38,14 @@ public class FlowFolderServiceTest extends FlowManagerApplicationTest {
     public void query() {
         FlowFolder flowFolder = flowFolderService.queryById("81c58747-045e-47af-a9db-9964cd9fc317");
         System.out.println(JSON.toJSONString(flowFolder));
+
         flowFolder = flowFolderService.queryByName("测试目录-修改2");
         System.out.println(JSON.toJSONString(flowFolder));
+
         List<FlowFolder> folders = flowFolderService.queryFolder("4b1f0d0e-aca6-4ef2-bfa3-b77daf6fb1ea");
+        System.out.println(JSON.toJSONString(folders));
+
+        folders = flowFolderService.queryRoot();
         System.out.println(JSON.toJSONString(folders));
     }
 

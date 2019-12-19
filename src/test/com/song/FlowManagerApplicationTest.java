@@ -1,5 +1,6 @@
 package com.song;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,9 @@ public class FlowManagerApplicationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
+    }
+
+    public void print(Object object) {
+        System.out.println(JSON.toJSONString(object));
     }
 }

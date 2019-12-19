@@ -25,13 +25,13 @@
         select * from sdb_flow_folder where id=#{id};
     </select>
     <select id="queryRoot" resultMap="flowFolder">
-        select * from sdb_flow_folder where parent_id is null;
+        select * from sdb_flow_folder where parent_id is null order by sort asc;
     </select>
     <select id="queryFolder" resultMap="flowFolder">
-        select * from sdb_flow_folder where parent_id=#{parentId};
+        select * from sdb_flow_folder where parent_id=#{parentId} order by sort asc;
     </select>
     <select id="queryByName" resultMap="flowFolder">
-        select * from sdb_flow_folder where name=#{folderName};
+        select * from sdb_flow_folder where name=#{folderName} order by sort asc;
     </select>
     <select id="queryMaxSort" resultType="Integer">
         select MAX(sort) from sdb_flow_folder

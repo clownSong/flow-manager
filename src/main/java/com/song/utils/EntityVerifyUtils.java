@@ -21,26 +21,32 @@ public class EntityVerifyUtils {
      * @param baseEntity  待验证实体
      */
     public static Map<String, Object> verifyString(final Map<String, Object> verifyParam, BaseEntity baseEntity) {
-        Class classes = baseEntity.getClass();
-        Iterator<String> propKey = verifyParam.keySet().iterator();
-        String property = null;
-        String msg = null;
-        while (propKey.hasNext()) {
-            property = propKey.next();
-            if (verifyString(classes, property, baseEntity)) {
-                msg = verifyParam.get(property).toString();
-                break;
-            }
-            property = null;
-        }
-
-        verifyParam.clear();
-        if (property == null) {
+        if (baseEntity == null) {
+            verifyParam.put("baseEntity", "数据不能为空");
             return verifyParam;
         } else {
-            verifyParam.put(property, msg);
-            return verifyParam;
+            Class classes = baseEntity.getClass();
+            Iterator<String> propKey = verifyParam.keySet().iterator();
+            String property = null;
+            String msg = null;
+            while (propKey.hasNext()) {
+                property = propKey.next();
+                if (verifyString(classes, property, baseEntity)) {
+                    msg = verifyParam.get(property).toString();
+                    break;
+                }
+                property = null;
+            }
+
+            verifyParam.clear();
+            if (property == null) {
+                return verifyParam;
+            } else {
+                verifyParam.put(property, msg);
+                return verifyParam;
+            }
         }
+
     }
 
     private static boolean verifyString(Class classes, String property, BaseEntity baseEntity) {

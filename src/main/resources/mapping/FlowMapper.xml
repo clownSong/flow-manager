@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.FlowMapper">
+    <resultMap id="flow" type="com.song.entity.Flow">
+        <id column="id" property="id" jdbcType="VARCHAR"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="remark" property="remark" jdbcType="VARCHAR"></result>
+        <result column="view_id" property="viewId" jdbcType="VARCHAR"></result>
+        <result column="datetime" property="datetime" jdbcType="CHAR"></result>
+        <result column="person" property="person" jdbcType="NVARCHAR"></result>
+        <result column="sort" property="sort" jdbcType="INTEGER"></result>
+        <result column="is_stop" property="isStop" jdbcType="TINYINT"></result>
+    </resultMap>
+    <insert id="insert">
+        insert into sdb_flow (id, name, remark, view_id, folder_id, datetime, person,sort,is_stop)
+        values (#{id},#{name},#{remark},#{viewId},#{folder.id},#{datetime},#{person},#{sort},#{isStop})
+    </insert>
+    <delete id="delete">
+        delete from sdb_flow where id=#{id}
+    </delete>
+    <update id="update">
+        update sdb_flow set name=#{name},remark=#{remark},view_id=#{viewId},folder_id=#{folder.id},sort=#{sort},is_stop=#{isStop} where id=#{id};
+    </update>
+    <select id="queryById" resultMap="flow">
+        select * from sdb_flow where id=#{id};
+    </select>
+    <select id="queryByFolder" resultMap="flow">
+        select * from sdb_flow where folder_id=#{folderId} order by datetime,name asc
+    </select>
+    <select id="queryByViewId" resultMap="flow">
+        select * from sdb_flow where view_id=#{viewId} and is_stop=0 order by sort asc
+    </select>
+    <select id="queryMaxSort" resultType="Integer">
+        select MAX(sort) from sdb_flow
+        <if test="viewId != null">
+            where view_id=#{viewId}
+        </if>
+    </select>
+    <delete id="deleteByFolder">
+        delete from sdb_flow where folder_id=#{folderId}
+    </delete>
+    <delete id="deleteByViewId">
+        delete from sdb_flow where view_id=#{viewId}
+    </delete>
+    <select id="queryByName" resultMap="flow">
+        select * from sdb_flow where name LIKE '%'+#{name}+'%'
+        <if test="viewId != null">
+            and view_id=#{viewId}
+        </if>
+        order by sort
+    </select>
+</mapper>
