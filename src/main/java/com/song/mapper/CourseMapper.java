@@ -36,6 +36,7 @@ public interface CourseMapper extends BaseMapper {
      * @param id 过程主键
      * @return
      */
+    @Override
     int delete(@Param("id") String id);
 
     /**

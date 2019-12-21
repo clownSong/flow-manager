@@ -27,8 +27,8 @@ public interface BaseMapper {
     /**
      * 删除数据
      *
-     * @param object
+     * @param id 数据表主键
      * @return 返回影响的行数
      */
-    int delete(BaseEntity object);
+    int delete(String id);
 }

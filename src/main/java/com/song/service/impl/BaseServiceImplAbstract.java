@@ -3,6 +3,7 @@ package com.song.service.impl;
 import com.song.entity.BaseEntity;
 import com.song.mapper.BaseMapper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.song.utils.Constant.*;
@@ -44,6 +45,19 @@ public abstract class BaseServiceImplAbstract {
             result.put(RESULT_STATE_KEY, baseMapper.update(baseEntity));
             result.put(RESULT_DATA_KEY, baseEntity);
         }
+        return result;
+    }
+
+    /**
+     * 删除数据表
+     *
+     * @param id         数据表主键
+     * @param baseMapper mapper基类
+     * @return {state:"-1等于操作失败，非-1等于操作成功"}
+     */
+    public Map<String, Object> delete(String id, BaseMapper baseMapper) {
+        Map<String, Object> result = new HashMap<>(4);
+        result.put(RESULT_STATE_KEY, baseMapper.delete(id));
         return result;
     }
 

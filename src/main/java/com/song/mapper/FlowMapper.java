@@ -29,6 +29,7 @@ public interface FlowMapper extends BaseMapper {
      * @param id 主键
      * @return 失败返回-1
      */
+    @Override
     int delete(@Param("id") String id);
 
     /**

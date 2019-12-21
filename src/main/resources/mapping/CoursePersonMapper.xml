@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.CoursePersonMapper">
+    <resultMap id="coursePerson" type="com.song.entity.CoursePerson">
+        <id column="id" property="id" jdbcType="VARCHAR"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="type" property="type" jdbcType="INTEGER"></result>
+        <result column="point_id" property="pointId" jdbcType="VARCHAR"></result>
+        <result column="dispose" property="dispose" jdbcType="INTEGER"></result>
+        <result column="datetime" property="datetime" jdbcType="CHAR"></result>
+        <result column="course_id" property="courseId" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <insert id="insert">
+        insert into sdb_course_person (id, name, type, point_id, datetime, course_id)
+        values (#{id},#{name},#{type},#{pointId},#{datetime},#{courseId});
+    </insert>
+    <update id="update">
+        update sdb_course_person set name=#{name},type=#{type},point_id=#{pointId},
+        dispose=#{dispose} where id=#{id};
+    </update>
+    <delete id="delete">
+        delete from sdb_course_person where id=#{id}
+    </delete>
+    <delete id="deleteByCourse">
+        delete from sdb_course_person where course_id=#{courseId};
+    </delete>
+    <select id="queryByCourse" resultMap="coursePerson">
+        select * from sdb_course_person where course_id=#{courseId};
+    </select>
+    <select id="queryById" resultMap="coursePerson">
+        select * from sdb_course_person where id=#{id};
+    </select>
+</mapper>

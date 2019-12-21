@@ -28,6 +28,7 @@ public interface FlowFolderMapper extends BaseMapper {
      * @param id 目录主键
      * @return
      */
+    @Override
     int delete(@Param("id") String id);
 
     /**
