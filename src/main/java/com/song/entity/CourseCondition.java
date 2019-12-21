@@ -5,7 +5,7 @@ package com.song.entity;
  * @date 2019-12-18 11:29
  * 审批步骤条件判断类
  */
-public class CourseCodition extends BaseEntity {
+public class CourseCondition extends BaseEntity {
     /**
      * 过程id
      */
