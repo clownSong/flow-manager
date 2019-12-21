@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Repository
 @Mapper
-public interface FlowMapper {
+public interface FlowMapper extends BaseMapper {
     /**
      * 添加流程
      *

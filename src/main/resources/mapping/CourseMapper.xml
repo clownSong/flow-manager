@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.CourseMapper">
+    <resultMap id="course" type="com.song.entity.Course">
+        <id column="id" property="id" jdbcType="VARCHAR"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="remark" property="remark" jdbcType="VARCHAR"></result>
+        <result column="overtime" property="overtime" jdbcType="INTEGER"></result>
+        <result column="overtime_dispose" property="overtimeDispose" jdbcType="INTEGER"></result>
+        <result column="parent_course_id" property="parent_course_id" jdbcType="VARCHAR"></result>
+        <result column="flow_id" property="flowId" jdbcType="VARCHAR"></result>
+        <result column="is_judge" property="isJudge" jdbcType="TINYINT"></result>
+        <result column="is_freedom" property="isFreedom" jdbcType="TINYINT"></result>
+        <result column="is_countersign" property="isCountersign" jdbcType="TINYINT"></result>
+    </resultMap>
+    <insert id="insert">
+        insert into sdb_course (id, name, remark, overtime, overtime_dispose, parent_course_id, flow_id, is_judge, is_freedom, is_countersign)
+        values (#{id},#{name},#{remark},#{overtime},#{overtimeDispose},#{parentCourseId},#{flowId},#{isJudge},#{isFreedom},#{isCountersign})
+    </insert>
+    <update id="update">
+        update sdb_course set name=#{name},remark=#{remark},overtime=#{overtime},overtime_dispose=#{overtimeDispose},
+        parent_course_id=#{parentCourseId},is_judge=#{isJudge},is_freedom=#{isFreedom},is_countersign=#{isCountersign}
+        where id=#{id};
+    </update>
+    <delete id="delete">
+        delete from sdb_course where id=#{id};
+    </delete>
+    <delete id="deleteByFlow">
+        delete from sdb_course where flow_id=#{flowId}
+    </delete>
+    <select id="queryByFlowId" resultMap="course">
+        select * from sdb_course where flow_id=#{flowId}
+    </select>
+    <select id="queryById" resultMap="course">
+        select * from sdb_course where id=#{id}
+    </select>
+
+</mapper>

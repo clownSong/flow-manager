@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 @Mapper
-public interface FlowFolderMapper {
+public interface FlowFolderMapper extends BaseMapper {
     /**
      * 添加目录
      *

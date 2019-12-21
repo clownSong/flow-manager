@@ -21,7 +21,7 @@ public class Course extends BaseEntity {
     /**
      * 超时处理方式id
      */
-    private String overtimeDispose;
+    private Integer overtimeDispose;
     /**
      * 上级过程id
      */
@@ -67,11 +67,11 @@ public class Course extends BaseEntity {
         this.overtime = overtime;
     }
 
-    public String getOvertimeDispose() {
+    public Integer getOvertimeDispose() {
         return overtimeDispose;
     }
 
-    public void setOvertimeDispose(String overtimeDispose) {
+    public void setOvertimeDispose(Integer overtimeDispose) {
         this.overtimeDispose = overtimeDispose;
     }
 

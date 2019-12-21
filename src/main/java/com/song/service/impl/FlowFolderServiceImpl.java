@@ -1,5 +1,6 @@
 package com.song.service.impl;
 
+import com.song.entity.BaseEntity;
 import com.song.entity.FlowFolder;
 import com.song.mapper.FlowFolderMapper;
 import com.song.service.FlowFolderService;
@@ -22,30 +23,18 @@ import static com.song.utils.EntityVerifyUtils.verifyString;
  * 流程目录服务实现
  */
 @Service
-public class FlowFolderServiceImpl implements FlowFolderService {
+public class FlowFolderServiceImpl extends BaseServiceImplAbstract implements FlowFolderService {
     @Autowired
     private FlowFolderMapper flowFolderMapper;
 
     @Override
     public Map<String, Object> insert(FlowFolder folder) {
-        Map<String, Object> result = verify(folder);
-        if (Constant.RESULT_STATE_SUCCESS == (int) result.get(Constant.RESULT_STATE_KEY)) {
-            flowFolderMapper.insert(folder);
-            result.put(Constant.RESULT_DATA_KEY, folder);
-            result.put(Constant.RESULT_STATE_MSG_KEY, "添加成功");
-        }
-        return result;
+        return insert(folder, flowFolderMapper);
     }
 
     @Override
     public Map<String, Object> update(FlowFolder folder) {
-        Map<String, Object> result = verify(folder);
-        if (Constant.RESULT_STATE_SUCCESS == (int) result.get(Constant.RESULT_STATE_KEY)) {
-            result.put(Constant.RESULT_STATE_KEY, flowFolderMapper.update(folder));
-            result.put(Constant.RESULT_DATA_KEY, folder);
-            result.put(Constant.RESULT_STATE_MSG_KEY, "操作成功");
-        }
-        return result;
+        return update(folder, flowFolderMapper);
     }
 
     @Override
@@ -77,7 +66,10 @@ public class FlowFolderServiceImpl implements FlowFolderService {
     public Integer getMaxSort(String parentId) {
         return flowFolderMapper.queryMaxSort(parentId);
     }
-    private Map<String, Object> verify(final FlowFolder flowFolder) {
+
+    @Override
+    public Map<String, Object> verify(final BaseEntity baseEntity) {
+        FlowFolder flowFolder = (FlowFolder) baseEntity;
         Map<String, Object> verifyResult = new HashMap<>(4);
         verifyResult.put("name", "目录名称不能为空");
         verifyResult = verifyString(verifyResult, flowFolder);
