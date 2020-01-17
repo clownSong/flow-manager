@@ -38,8 +38,8 @@ public class FlowFolderServiceImpl extends BaseServiceImplAbstract implements Fl
     }
 
     @Override
-    public int delete(String id) {
-        return flowFolderMapper.delete(id);
+    public Map<String, Object> delete(String id) {
+        return delete(id, flowFolderMapper);
     }
 
     @Override

@@ -26,7 +26,7 @@ public interface FlowFolderService {
      * @param id 目录主键
      * @return
      */
-    int delete(String id);
+    Map<String, Object> delete(String id);
 
     /**
      * 更新目录
