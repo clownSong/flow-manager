@@ -32,7 +32,14 @@ public class CourseServiceImpl extends BaseServiceImplAbstract implements Course
 
     @Override
     public Map<String, Object> update(Course course) {
-        return update(course, courseMapper);
+        if (queryById(course.getId()) != null) {
+            return update(course, courseMapper);
+        } else {
+            Map<String,Object> result = new HashMap<>();
+            result.put(RESULT_STATE_KEY,RESULT_STATE_FAIL);
+            result.put(RESULT_STATE_MSG_KEY,"修改的过程不存在");
+            return result;
+        }
     }
 
     @Override

@@ -35,7 +35,14 @@ public class CourseConditionServiceImpl extends BaseServiceImplAbstract implemen
 
     @Override
     public Map<String, Object> update(CourseCondition condition) {
-        return update(condition, courseConditionMapper);
+        if (queryById(condition.getId()) == null) {
+            HashMap<String,Object> result = new HashMap<>(2);
+            result.put(RESULT_STATE_KEY, RESULT_STATE_FAIL);
+            result.put(RESULT_STATE_MSG_KEY, "指定的数据不存在");
+            return result;
+        } else {
+            return update(condition, courseConditionMapper);
+        }
     }
 
     @Override
@@ -65,9 +72,9 @@ public class CourseConditionServiceImpl extends BaseServiceImplAbstract implemen
         Map<String, Object> result = new HashMap<>(16);
         CourseCondition courseCondition = (CourseCondition) baseEntity;
         result.put("courseId", "请指定过程主体");
-        result.put("value", "请指定判断调教的值");
-        result.put("type", "请指定判断条件类型");
-        result.put("fieldName", "请指定判断条件比较属性");
+        result.put("value", "请指定判断值");
+        result.put("type", "请指定判断类型");
+        result.put("fieldName", "请指定比较字段");
         result = EntityVerifyUtils.verifyString(result, courseCondition);
         if (result.isEmpty()) {
 //            验证成功
