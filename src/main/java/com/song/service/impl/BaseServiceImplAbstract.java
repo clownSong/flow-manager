@@ -27,6 +27,7 @@ public abstract class BaseServiceImplAbstract {
 //           验证通过,保存数据
             result.put(RESULT_STATE_KEY, baseMapper.insert(baseEntity));
             result.put(RESULT_DATA_KEY, baseEntity);
+            result.put(RESULT_STATE_MSG_KEY,"添加成功");
         }
         return result;
     }
@@ -44,6 +45,7 @@ public abstract class BaseServiceImplAbstract {
 //            验证通过，修改数据
             result.put(RESULT_STATE_KEY, baseMapper.update(baseEntity));
             result.put(RESULT_DATA_KEY, baseEntity);
+            result.put(RESULT_STATE_MSG_KEY,"修改成功");
         }
         return result;
     }

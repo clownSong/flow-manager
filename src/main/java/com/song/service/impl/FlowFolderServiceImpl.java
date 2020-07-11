@@ -9,10 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.song.utils.DateUtils.getNowDatetime;
 import static com.song.utils.EntityVerifyUtils.verifyString;
@@ -110,6 +107,8 @@ public class FlowFolderServiceImpl extends BaseServiceImplAbstract implements Fl
                     verifyResult.put(Constant.RESULT_STATE_MSG_KEY, "上级目录设置错误（不允许设置自身为上级目录）");
                     return verifyResult;
                 }
+            } else {
+                flowFolder.setParentId(null);
             }
             verifyResult.put(Constant.RESULT_STATE_KEY, Constant.RESULT_STATE_SUCCESS);
         } else {
@@ -125,7 +124,7 @@ public class FlowFolderServiceImpl extends BaseServiceImplAbstract implements Fl
      * @param flowFolder 目录对象
      */
     private void setRootSort(final FlowFolder flowFolder) {
-        if (flowFolder.getSort() == null) {
+        if (Objects.isNull(flowFolder.getSort())) {
             Integer maxSort = getMaxSort(flowFolder.getParentId());
             maxSort = maxSort == null ? 0 : maxSort;
             flowFolder.setSort(maxSort + 1);

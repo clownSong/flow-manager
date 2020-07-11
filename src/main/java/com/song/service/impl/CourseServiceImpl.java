@@ -1,18 +1,20 @@
 package com.song.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.song.entity.BaseEntity;
 import com.song.entity.Course;
 import com.song.mapper.CourseMapper;
+import com.song.service.CourseConditionService;
+import com.song.service.CoursePersonService;
 import com.song.service.CourseService;
 import com.song.utils.EntityVerifyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.song.utils.Constant.*;
 
@@ -24,6 +26,10 @@ import static com.song.utils.Constant.*;
 public class CourseServiceImpl extends BaseServiceImplAbstract implements CourseService {
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private CoursePersonService coursePersonService;
+    @Autowired
+    private CourseConditionService courseConditionService;
 
     @Override
     public Map<String, Object> insert(Course course) {
@@ -36,16 +42,49 @@ public class CourseServiceImpl extends BaseServiceImplAbstract implements Course
     }
 
     @Override
+    @Transactional
     public Map<String, Object> delete(String id) {
         Map<String, Object> result = new HashMap<>(4);
-        result.put(RESULT_STATE_KEY, courseMapper.delete(id));
+        /*
+        设置当前过程子元素
+         */
+        Course course = queryById(id);
+        if (course != null) {
+
+            if (course.getParentCourseId() != null) {
+                //有父元素，重新设置直接子元素的父元素id
+                QueryWrapper<Course> wrapper = new QueryWrapper();
+                wrapper.lambda().eq(Course::getParentCourseId, course.getId());
+                List<Course> courses = courseMapper.selectList(wrapper);
+                courses.forEach(course1 -> {
+                    if (Objects.isNull(course1)) {
+                        course1.setParentCourseId(course.getParentCourseId());
+                        update(course1);
+                    }
+                });
+            }
+            //删除过程中所有人员
+            coursePersonService.deleteByCourse(course.getId());
+            //删除过程条件判断集合
+            courseConditionService.deleteByCourse(course.getId());
+            //删除过程
+            result.put(RESULT_STATE_KEY, courseMapper.delete(id));
+            result.put(RESULT_STATE_MSG_KEY, "删除成功");
+        } else {
+            result.put(RESULT_STATE_KEY, RESULT_STATE_FAIL);
+            result.put(RESULT_STATE_MSG_KEY, "指定删除的过程不存在");
+        }
         return result;
     }
 
     @Override
     public Map<String, Object> deleteByFlow(String flowId) {
         Map<String, Object> result = new HashMap<>(4);
-        result.put(RESULT_STATE_KEY, courseMapper.deleteByFlow(flowId));
+        List<Course> courseList = queryByFlowId(flowId);
+        courseList.forEach(course->{
+            delete(course.getId());
+        });
+        result.put(RESULT_STATE_MSG_KEY,"删除成功");
         return result;
     }
 
