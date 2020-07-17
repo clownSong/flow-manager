@@ -7,7 +7,7 @@ import com.song.entity.BaseEntity;
  * @date 2019-12-20 16:42
  * mybatis mapper基类接口,规定每个mapper需具备的基本查询
  */
-public interface BaseMapper {
+public interface BaseMapper extends com.baomidou.mybatisplus.core.mapper.BaseMapper {
     /**
      * 添加数据到实体类
      *

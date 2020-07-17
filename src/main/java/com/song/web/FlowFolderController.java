@@ -2,6 +2,9 @@ package com.song.web;
 
 import com.song.entity.FlowFolder;
 import com.song.service.FlowFolderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +23,9 @@ import java.util.Map;
  * 6、通过目录id查询目录对象 <a>queryById()</a>
  * Note：FlowFolder对象请参见:com.song.entity.FlowFolder类
  */
+@Api(tags = "流程目录管理")
 @RestController
-@RequestMapping("/flowManager/flowFolder")
+@RequestMapping("flowFolder")
 public class FlowFolderController extends BaseController {
     /**
      * 流程目录服务接口
@@ -40,8 +44,9 @@ public class FlowFolderController extends BaseController {
      * @return key：{@link com.song.utils.Constant} RESULT_STATE_KEY=RESULT_STATE_SUCCESS(添加成功)，
      * RESULT_STATE_KEY=RESULT_STATE_FAIL（添加失败，提示信息请读取：RESULT_STATE_MSG_KEY）}
      */
-    @PostMapping
-    public Map<String, Object> insert(FlowFolder folder) {
+    @ApiOperation("添加目录")
+    @PutMapping
+    public Map<String, Object> insert(@RequestBody FlowFolder folder) {
         return flowFolderService.insert(folder);
     }
 
@@ -54,8 +59,9 @@ public class FlowFolderController extends BaseController {
      * msg:添加失败提示信息
      * data:{@link FlowFolder}添加成功后返回流程目录数据
      */
-    @PutMapping
-    public Map<String, Object> update(FlowFolder folder) {
+    @PostMapping
+    @ApiOperation("更新目录")
+    public Map<String, Object> update(@RequestBody FlowFolder folder) {
         return flowFolderService.update(folder);
     }
 
@@ -67,8 +73,9 @@ public class FlowFolderController extends BaseController {
      * key:state,value:1(删除成功),-1(删除失败)，
      * key:msg（删除失败提示信息）
      */
+    @ApiOperation("删除目录")
     @DeleteMapping
-    public Map<String, Object> delete(String id) {
+    public Map<String, Object> delete(@ApiParam("目录id") String id) {
         return flowFolderService.delete(id);
     }
 
@@ -77,6 +84,7 @@ public class FlowFolderController extends BaseController {
      *
      * @return {@link List<FlowFolder>}
      */
+    @ApiOperation("获取根目录集合")
     @GetMapping("/getRoot")
     public List<FlowFolder> queryRoot() {
         return flowFolderService.queryRoot();
@@ -88,8 +96,9 @@ public class FlowFolderController extends BaseController {
      * @param parentId 目录id
      * @return {@link List<FlowFolder>}
      */
+    @ApiOperation("获取子目录集合")
     @GetMapping("/getByParent")
-    public List<FlowFolder> queryByParent(String parentId) {
+    public List<FlowFolder> queryByParent(@ApiParam("目录id") String parentId) {
         return flowFolderService.queryFolder(parentId);
     }
 
@@ -99,8 +108,9 @@ public class FlowFolderController extends BaseController {
      * @param id 主键
      * @return {@link FlowFolder}
      */
+    @ApiOperation("获取目录对象")
     @GetMapping("/getById")
-    public FlowFolder queryById(String id) {
+    public FlowFolder queryById(@ApiParam("目录id") String id) {
         return flowFolderService.queryById(id);
     }
 }
