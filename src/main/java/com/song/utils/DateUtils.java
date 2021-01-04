@@ -25,6 +25,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
      * 默认转化格式
      */
     private final static String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private final static String DATE_PATTERN = "yyyy-MM-dd";
 
     /**
      * 格式化时间，Date转换为String
@@ -48,7 +49,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     }
 
     /**
-     * 获取当前日期+时间字符串（"yyyy-MM-dd hh:mm:ss"）
+     * 获取当前日期+时间字符串,格式："yyyy-MM-dd hh:mm:ss"
      *
      * @return
      */
@@ -97,4 +98,12 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return formatter;
     }
 
+    /**
+     * 获取当前日期 格式："yyyy-MM-dd"
+     *
+     * @return
+     */
+    public static String getNowDate() {
+        return format(LocalDateTime.now(ZoneId.systemDefault()), DATE_PATTERN);
+    }
 }

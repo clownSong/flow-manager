@@ -1,9 +1,12 @@
 package com.song.interceptor;
 
+import com.song.service.RedisService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,15 +18,26 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class UserHandlerInterceptor implements HandlerInterceptor {
+    @Resource
+    private RedisService redisService;
+
     /**
      * 在请求处理之前进行调用（Controller方法调用之前
      */
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         try {
-            return true;
+            String token = httpServletRequest.getHeader("accept-token");
+            if (redisService.existsKey(token)) {
+                return true;
+            } else if (StringUtils.isNotBlank(token)) {
+                httpServletResponse.sendError(402, "accept-token已过期");
+            } else {
+                httpServletResponse.sendError(402, "请在请求头中传入\"accept-token\"参数");
+            }
+            return false;
         } catch (Exception e) {
-            httpServletResponse.sendRedirect("/login.html");
+            httpServletResponse.sendError(500, e.getLocalizedMessage());
             return false;
         }
     }

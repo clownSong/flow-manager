@@ -1,9 +1,9 @@
 package com.song.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.song.entity.FlowFolder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,9 +11,8 @@ import java.util.List;
  * @author XiaoSong
  * @date 2019-12-18 13:09
  */
-@Repository
 @Mapper
-public interface FlowFolderMapper extends BaseMapper {
+public interface FlowFolderMapper extends BaseMapper<FlowFolder> {
     /**
      * 添加目录
      *
@@ -28,7 +27,6 @@ public interface FlowFolderMapper extends BaseMapper {
      * @param id 目录主键
      * @return
      */
-    @Override
     int delete(@Param("id") String id);
 
     /**

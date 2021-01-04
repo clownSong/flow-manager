@@ -26,7 +26,7 @@ public class CourseServiceImplTest extends FlowManagerApplicationTest {
         course.setFreedom(true);
         course.setOvertime(-1);
         course.setOvertimeDispose(3);
-        course.setFlowId("1");
+        course.setFlowId("bef35ce4-a009-4877-b3d8-d1309d945717");
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CourseServiceImplTest extends FlowManagerApplicationTest {
 
     @Test
     public void deleteByFolder() {
-        print(courseService.deleteByFlow("1"));
+        print(courseService.deleteByFlow("d9dc0ab0-5875-4129-a829-5070a0ef0e1d"));
     }
 
     @Test

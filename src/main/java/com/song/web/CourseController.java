@@ -31,7 +31,7 @@ public class CourseController {
     @ApiOperation("添加过程")
     @PutMapping
     public Result insert(@RequestBody Course course) {
-        return Result.success(course);
+        return Result.success(courseService.insert(course));
     }
 
     @ApiOperation("修改过程")

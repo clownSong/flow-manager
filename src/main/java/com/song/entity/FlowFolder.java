@@ -1,6 +1,6 @@
 package com.song.entity;
 
-import io.swagger.annotations.Api;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @date 2019-12-18 10:59
  * 流程目录类（sdb_flow_folder）
  */
+@TableName("sdb_flow_folder")
 @ApiModel("流程目录实体")
 public class FlowFolder extends BaseEntity {
     /**

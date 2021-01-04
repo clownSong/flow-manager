@@ -1,5 +1,8 @@
 package com.song.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @date 2019-12-18 11:25
  * 过程处理类型信息表
  */
+@TableName("sdb_course_person")
 @ApiModel("步骤中审批人员")
 public class CoursePerson extends BaseEntity {
     /**
@@ -33,6 +37,7 @@ public class CoursePerson extends BaseEntity {
     /**
      * 添加时间
      */
+    @TableField(value = "date_time", updateStrategy = FieldStrategy.NOT_EMPTY)
     @ApiModelProperty(value = "添加时间")
     private String datetime;
     /**

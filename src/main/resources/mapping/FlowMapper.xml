@@ -11,6 +11,8 @@
         <result column="person" property="person" jdbcType="NVARCHAR"></result>
         <result column="sort" property="sort" jdbcType="INTEGER"></result>
         <result column="is_stop" property="isStop" jdbcType="TINYINT"></result>
+        <association property="folder" column="folder_id"
+                     select="com.song.mapper.FlowFolderMapper.queryById"></association>
     </resultMap>
     <insert id="insert">
         insert into sdb_flow (id, name, remark, view_id, folder_id, datetime, person,sort,is_stop)

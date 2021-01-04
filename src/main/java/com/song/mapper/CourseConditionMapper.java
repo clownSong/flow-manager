@@ -1,5 +1,6 @@
 package com.song.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.song.entity.CourseCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface CourseConditionMapper extends BaseMapper {
+public interface CourseConditionMapper extends BaseMapper<CourseCondition> {
     /**
      * 添加判断条件
      *
@@ -53,7 +54,6 @@ public interface CourseConditionMapper extends BaseMapper {
      * @param id 判断条件主键
      * @return
      */
-    @Override
     int delete(@Param("id") String id);
 
     /**

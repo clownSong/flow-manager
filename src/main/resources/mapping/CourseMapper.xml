@@ -8,7 +8,7 @@
         <result column="remark" property="remark" jdbcType="VARCHAR"></result>
         <result column="overtime" property="overtime" jdbcType="INTEGER"></result>
         <result column="overtime_dispose" property="overtimeDispose" jdbcType="INTEGER"></result>
-        <result column="parent_course_id" property="parent_course_id" jdbcType="VARCHAR"></result>
+        <result column="parent_course_id" property="parentCourseId" jdbcType="VARCHAR"></result>
         <result column="flow_id" property="flowId" jdbcType="VARCHAR"></result>
         <result column="is_judge" property="isJudge" jdbcType="TINYINT"></result>
         <result column="is_freedom" property="isFreedom" jdbcType="TINYINT"></result>

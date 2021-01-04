@@ -3,18 +3,17 @@ package com.song.service.impl;
 import com.song.entity.BaseEntity;
 import com.song.entity.CoursePerson;
 import com.song.mapper.CoursePersonMapper;
+import com.song.model.SystemPersonModel;
 import com.song.service.CoursePersonService;
 import com.song.service.CourseService;
+import com.song.service.SystemPersonService;
 import com.song.utils.DateUtils;
 import com.song.utils.EntityVerifyUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.annotation.Resource;
+import java.util.*;
 
 import static com.song.utils.Constant.*;
 
@@ -24,10 +23,12 @@ import static com.song.utils.Constant.*;
  */
 @Service
 public class CoursePersonServiceImpl extends BaseServiceImplAbstract implements CoursePersonService {
-    @Autowired
+    @Resource
     private CoursePersonMapper coursePersonMapper;
-    @Autowired
+    @Resource
     private CourseService courseService;
+    @Resource
+    private SystemPersonService systemPersonService;
 
     @Override
     public Map<String, Object> insert(CoursePerson person) {
@@ -88,7 +89,21 @@ public class CoursePersonServiceImpl extends BaseServiceImplAbstract implements 
 //            验证失败
             result.put(RESULT_STATE_KEY, RESULT_STATE_FAIL);
         }
-
         return result;
+    }
+
+    @Override
+    public List<SystemPersonModel> getPersonList(String courseId) {
+        final ArrayList<SystemPersonModel> personModels = new ArrayList<>();
+        List<CoursePerson> coursePeople = queryByCourse(courseId);
+        coursePeople.forEach(coursePerson -> {
+            personModels.addAll(getPersonList(coursePerson.getPointId(), coursePerson.getType() + ""));
+        });
+        return personModels;
+    }
+
+    @Override
+    public List<SystemPersonModel> getPersonList(String pointId, String type) {
+        return systemPersonService.getByPerson(pointId, type);
     }
 }

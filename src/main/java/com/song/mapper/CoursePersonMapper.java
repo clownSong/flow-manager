@@ -1,9 +1,9 @@
 package com.song.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.song.entity.CoursePerson;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,8 +13,7 @@ import java.util.List;
  * 过程审批实例mapper
  */
 @Mapper
-@Repository
-public interface CoursePersonMapper extends BaseMapper {
+public interface CoursePersonMapper extends BaseMapper<CoursePerson> {
     /**
      * 增加过程审批实例
      *
@@ -37,7 +36,6 @@ public interface CoursePersonMapper extends BaseMapper {
      * @param id 审批实例id
      * @return
      */
-    @Override
     int delete(@Param("id") String id);
 
     /**

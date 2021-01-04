@@ -1,5 +1,7 @@
 package com.song.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,8 +10,11 @@ import io.swagger.annotations.ApiModelProperty;
  * @date 2019-12-18 11:14
  * 流程过程类（sdb_course）
  */
+@TableName("sdb_course")
 @ApiModel("过程实体")
 public class Course extends BaseEntity {
+    @TableId("id")
+    private String id;
     /**
      * 过程名称
      */
@@ -48,13 +53,23 @@ public class Course extends BaseEntity {
     /**
      * 是否自由选人审批
      */
-    @ApiModelProperty(value = "是否由发起人自由选人审批", required = true)
+    @ApiModelProperty(value = "是否自由选人审批", required = true)
     private Boolean isFreedom;
     /**
      * 是否会签
      */
     @ApiModelProperty(value = "是否会签", required = true)
     private Boolean isCountersign;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -127,4 +142,5 @@ public class Course extends BaseEntity {
     public void setCountersign(Boolean countersign) {
         isCountersign = countersign;
     }
+
 }

@@ -59,4 +59,19 @@ public interface CourseService {
      */
     Course queryById(String id);
 
+    /**
+     * 判断给定流程第一步是否为自由选人审批
+     *
+     * @param flowId 流程主体主键
+     * @return
+     */
+    boolean isFreedom(String flowId);
+
+    /**
+     * 获取给定流程中第一个审批元素
+     *
+     * @param flowId 流程主体id
+     * @return
+     */
+    Course queryFirst(String flowId);
 }

@@ -6,13 +6,11 @@ import com.song.mapper.FlowMapper;
 import com.song.service.FlowService;
 import com.song.utils.DateUtils;
 import com.song.utils.EntityVerifyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.song.utils.Constant.*;
 
@@ -100,13 +98,13 @@ public class FlowServiceImpl extends BaseServiceImplAbstract implements FlowServ
 //            设置流程添加时间
             flow.setDatetime(DateUtils.getNowDatetime());
 //            设置排序
-            if (flow.getSort() == null) {
+            if (Objects.isNull(flow.getSort())) {
                 Integer max = queryMaxSort(flow.getViewId());
                 max = max == null ? 0 : max;
                 flow.setSort(max + 1);
             }
 //            设置流程id
-            if (flow.getId() == null) {
+            if (StringUtils.isBlank(flow.getId())) {
                 flow.setId(UUID.randomUUID().toString());
             }
 //            设置默认启用

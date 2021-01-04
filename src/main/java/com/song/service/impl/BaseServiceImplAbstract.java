@@ -1,7 +1,7 @@
 package com.song.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.song.entity.BaseEntity;
-import com.song.mapper.BaseMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,11 +39,11 @@ public abstract class BaseServiceImplAbstract {
      * @param baseMapper 系统mapper基类接口
      * @return
      */
-    public Map<String, Object> update(BaseEntity baseEntity, BaseMapper baseMapper) {
+    public Map<String, Object> update(BaseEntity baseEntity, com.baomidou.mybatisplus.core.mapper.BaseMapper baseMapper) {
         Map<String, Object> result = verify(baseEntity);
         if ((int) result.get(RESULT_STATE_KEY) == RESULT_STATE_SUCCESS) {
 //            验证通过，修改数据
-            result.put(RESULT_STATE_KEY, baseMapper.update(baseEntity));
+            result.put(RESULT_STATE_KEY, baseMapper.updateById(baseEntity));
             result.put(RESULT_DATA_KEY, baseEntity);
             result.put(RESULT_STATE_MSG_KEY,"修改成功");
         }
@@ -59,7 +59,7 @@ public abstract class BaseServiceImplAbstract {
      */
     public Map<String, Object> delete(String id, BaseMapper baseMapper) {
         Map<String, Object> result = new HashMap<>(4);
-        result.put(RESULT_STATE_KEY, baseMapper.delete(id));
+        result.put(RESULT_STATE_KEY, baseMapper.deleteById(id));
         return result;
     }
 

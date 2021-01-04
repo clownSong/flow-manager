@@ -1,6 +1,5 @@
 package com.song.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.song.entity.BaseEntity;
 import com.song.entity.Course;
@@ -10,10 +9,10 @@ import com.song.service.CoursePersonService;
 import com.song.service.CourseService;
 import com.song.utils.EntityVerifyUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 import static com.song.utils.Constant.*;
@@ -24,11 +23,11 @@ import static com.song.utils.Constant.*;
  */
 @Service
 public class CourseServiceImpl extends BaseServiceImplAbstract implements CourseService {
-    @Autowired
+    @Resource
     private CourseMapper courseMapper;
-    @Autowired
+    @Resource
     private CoursePersonService coursePersonService;
-    @Autowired
+    @Resource
     private CourseConditionService courseConditionService;
 
     @Override
@@ -41,9 +40,9 @@ public class CourseServiceImpl extends BaseServiceImplAbstract implements Course
         if (queryById(course.getId()) != null) {
             return update(course, courseMapper);
         } else {
-            Map<String,Object> result = new HashMap<>();
-            result.put(RESULT_STATE_KEY,RESULT_STATE_FAIL);
-            result.put(RESULT_STATE_MSG_KEY,"修改的过程不存在");
+            Map<String, Object> result = new HashMap<>();
+            result.put(RESULT_STATE_KEY, RESULT_STATE_FAIL);
+            result.put(RESULT_STATE_MSG_KEY, "修改的过程不存在");
             return result;
         }
     }
@@ -57,7 +56,6 @@ public class CourseServiceImpl extends BaseServiceImplAbstract implements Course
          */
         Course course = queryById(id);
         if (course != null) {
-
             if (course.getParentCourseId() != null) {
                 //有父元素，重新设置直接子元素的父元素id
                 QueryWrapper<Course> wrapper = new QueryWrapper();
@@ -88,10 +86,10 @@ public class CourseServiceImpl extends BaseServiceImplAbstract implements Course
     public Map<String, Object> deleteByFlow(String flowId) {
         Map<String, Object> result = new HashMap<>(4);
         List<Course> courseList = queryByFlowId(flowId);
-        courseList.forEach(course->{
+        courseList.forEach(course -> {
             delete(course.getId());
         });
-        result.put(RESULT_STATE_MSG_KEY,"删除成功");
+        result.put(RESULT_STATE_MSG_KEY, "删除成功");
         return result;
     }
 
@@ -102,7 +100,27 @@ public class CourseServiceImpl extends BaseServiceImplAbstract implements Course
 
     @Override
     public Course queryById(String id) {
-        return courseMapper.queryById(id);
+        return courseMapper.selectById(id);
+    }
+
+    @Override
+    public boolean isFreedom(String flowId) {
+        Course course = queryFirst(flowId);
+        if (!Objects.isNull(course)) {
+            return Objects.isNull(course.getFreedom()) ? false : course.getFreedom();
+        }
+        return false;
+    }
+
+    @Override
+    public Course queryFirst(String flowId) {
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("flow_id", flowId);
+        queryWrapper.and(wrapper -> {
+            wrapper.isNull("parent_course_id");
+        });
+//                eq("flow_id",flowId).isNull("parent_course_id");
+        return (Course) courseMapper.selectOne(queryWrapper);
     }
 
     @Override

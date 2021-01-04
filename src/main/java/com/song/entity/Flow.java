@@ -1,5 +1,6 @@
 package com.song.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @date 2019-12-18 11:03
  * 流程主体类
  */
+@TableName("sdb_flow")
 @ApiModel("流程主体对象")
 public class Flow extends BaseEntity {
     /**

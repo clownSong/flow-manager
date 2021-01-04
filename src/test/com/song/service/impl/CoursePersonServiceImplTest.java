@@ -21,7 +21,7 @@ public class CoursePersonServiceImplTest extends FlowManagerApplicationTest {
         coursePerson = new CoursePerson();
         coursePerson.setName("采购经理审批");
         coursePerson.setType(1);
-        coursePerson.setCourseId("2617c821-ab81-4924-a796-042ff189121c");
+        coursePerson.setCourseId("360b9c60-5bcc-468f-897d-19859d6ad029");
         coursePerson.setDispose(2);
         coursePerson.setPointId("");
     }

@@ -1,9 +1,9 @@
 package com.song.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.song.entity.Flow;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,9 +12,8 @@ import java.util.List;
  * @date 2019-12-19 9:29
  * 流程主体mapper
  */
-@Repository
 @Mapper
-public interface FlowMapper extends BaseMapper {
+public interface FlowMapper extends BaseMapper<Flow> {
     /**
      * 添加流程
      *
@@ -29,7 +28,6 @@ public interface FlowMapper extends BaseMapper {
      * @param id 主键
      * @return 失败返回-1
      */
-    @Override
     int delete(@Param("id") String id);
 
     /**

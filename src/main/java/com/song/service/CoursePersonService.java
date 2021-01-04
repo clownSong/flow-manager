@@ -1,6 +1,7 @@
 package com.song.service;
 
 import com.song.entity.CoursePerson;
+import com.song.model.SystemPersonModel;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
  * @author XiaoSong
  * @date 2019-12-21 9:37
  */
-public interface CoursePersonService {
+public interface CoursePersonService<T> {
     /**
      * 增加过程审批实例
      *
@@ -57,4 +58,21 @@ public interface CoursePersonService {
      * @return
      */
     CoursePerson queryById(String id);
+
+    /**
+     * 获取具体的审批人员集合
+     *
+     * @param courseId 过程id
+     * @return
+     */
+    List<T> getPersonList(String courseId);
+
+    /**
+     * 获取具体的审批人员集合
+     *
+     * @param pointId 人员信息唯一主键
+     * @param type    人员类型
+     * @return
+     */
+    List<SystemPersonModel> getPersonList(String pointId, String type);
 }

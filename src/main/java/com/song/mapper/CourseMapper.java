@@ -1,9 +1,9 @@
 package com.song.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.song.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,23 +12,7 @@ import java.util.List;
  * @date 2019-12-19 16:28
  */
 @Mapper
-@Repository
-public interface CourseMapper extends BaseMapper {
-    /**
-     * 添加过程主体
-     *
-     * @param course
-     * @return
-     */
-    int insert(Course course);
-
-    /**
-     * 更新过程主体
-     *
-     * @param course
-     * @return
-     */
-    int update(Course course);
+public interface CourseMapper extends BaseMapper<Course> {
 
     /**
      * 删除过程
@@ -36,7 +20,6 @@ public interface CourseMapper extends BaseMapper {
      * @param id 过程主键
      * @return
      */
-    @Override
     int delete(@Param("id") String id);
 
     /**

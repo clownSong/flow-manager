@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
-@ApiModel
+@ApiModel(value = "RESFul统一返回模型", description = "RESFul统一返回模型")
 public class Result<T> implements Serializable {
     @ApiModelProperty("状态代码")
     private int code;
@@ -25,20 +25,20 @@ public class Result<T> implements Serializable {
         this.code = code;
     }
 
-    public static Result success(Object data) {
-        return new Result(data);
+    public static <T> Result<T> success(T data) {
+        return new Result<>(data);
     }
 
-    public static Result error(Object o, String msg) {
-        return new Result(o, msg, 500);
+    public static <T> Result<T> error(T o, String msg) {
+        return new Result<>(o, msg, 500);
     }
 
-    public static Result error(Object o, String msg, int code) {
-        return new Result(o, msg, code);
+    public static <T> Result<T> error(T o, String msg, int code) {
+        return new Result<>(o, msg, code);
     }
 
-    public static Result success(int code, String msg, Object data) {
-        return new Result(data, msg, code);
+    public static <T> Result<T> success(int code, String msg, T data) {
+        return new Result<>(data, msg, code);
     }
 
     public int getCode() {
