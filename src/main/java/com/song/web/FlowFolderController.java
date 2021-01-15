@@ -1,6 +1,7 @@
 package com.song.web;
 
 import com.song.entity.FlowFolder;
+import com.song.model.Result;
 import com.song.service.FlowFolderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -112,5 +113,11 @@ public class FlowFolderController extends BaseController {
     @GetMapping("/getById")
     public FlowFolder queryById(@ApiParam("目录id") String id) {
         return flowFolderService.queryById(id);
+    }
+
+    @ApiOperation("模糊查询目录")
+    @GetMapping("/search")
+    public List<FlowFolder> search(String name){
+        return flowFolderService.search(name);
     }
 }

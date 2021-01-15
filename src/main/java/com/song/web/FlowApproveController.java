@@ -43,7 +43,7 @@ public class FlowApproveController {
         if (state > 0 && state < 400) {
             return Result.success(flowApproveService.queryById(approve.getId()));
         }
-        return Result.success(state, "更新失败,请检车参数是否有误(状态只能为1或者4)", approve);
+        return Result.success(state, "更新失败,请检查参数是否有误(状态只能为1或者4)", approve);
     }
 
     @ApiOperation(value = "审批通过", response = CourseHistoryResultModel.class)

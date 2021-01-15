@@ -1,6 +1,8 @@
 package com.song.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.song.entity.BaseEntity;
+import com.song.entity.Flow;
 import com.song.entity.FlowFolder;
 import com.song.mapper.FlowFolderMapper;
 import com.song.service.FlowFolderService;
@@ -62,6 +64,13 @@ public class FlowFolderServiceImpl extends BaseServiceImplAbstract implements Fl
     @Override
     public Integer getMaxSort(String parentId) {
         return flowFolderMapper.queryMaxSort(parentId);
+    }
+
+    @Override
+    public List<FlowFolder> search(String name) {
+        QueryWrapper qw = new QueryWrapper();
+        qw.lambda().like("name",name);
+        return flowFolderMapper.selectList(qw);
     }
 
     @Override

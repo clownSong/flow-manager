@@ -82,17 +82,18 @@ public class FlowServiceImpl extends BaseServiceImplAbstract implements FlowServ
         Map<String, Object> result = new HashMap<>(4);
         result.put("name", "流程名称不能为空");
         result.put("person", "请指定流程管理人员");
+        result.put("folderId", "请指定流程目录");
         result = EntityVerifyUtils.verifyString(result, flow);
         if (result.isEmpty()) {
 //            验证通过
-            if (flow.getFolder() == null) {
+            /*if (flow.getFolder() == null) {
                 result.put(RESULT_STATE_KEY, RESULT_STATE_FAIL);
                 result.put(RESULT_STATE_MSG_KEY, "请指定流程目录");
                 return result;
-            }
+            }*/
             if (flow.getName().length() > DATABASE_VARCHAR_LENGTH_200) {
                 result.put(RESULT_STATE_KEY, RESULT_STATE_FAIL);
-                result.put(RESULT_STATE_MSG_KEY, "流程目录名称过长");
+                result.put(RESULT_STATE_MSG_KEY, "流程名称过长");
                 return result;
             }
 //            设置流程添加时间

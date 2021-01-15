@@ -2,6 +2,7 @@ package com.song.interceptor;
 
 import com.song.service.RedisService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class UserHandlerInterceptor implements HandlerInterceptor {
-    @Resource
+    @Autowired
     private RedisService redisService;
 
     /**
@@ -29,6 +30,7 @@ public class UserHandlerInterceptor implements HandlerInterceptor {
         try {
             String token = httpServletRequest.getHeader("accept-token");
             if (redisService.existsKey(token)) {
+                httpServletRequest.setAttribute("user",redisService.getValue(token));
                 return true;
             } else if (StringUtils.isNotBlank(token)) {
                 httpServletResponse.sendError(402, "accept-token已过期");

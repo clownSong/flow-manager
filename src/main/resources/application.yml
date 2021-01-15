@@ -7,11 +7,11 @@ spring:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      password: 85516128
-      username: song
       url: jdbc:sqlserver://192.168.3.253:1433;database=sdb_flow_manager;integratedSecurity=false
-      db-type: sqlserver
+#      url: jdbc:mysql://127.0.0.1:3306/flow_manager?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=true
+      username: song
+      password: 85516128
+#      db-type: mysql
   thymeleaf:
     cache: false
     prefix: classpath:templates/

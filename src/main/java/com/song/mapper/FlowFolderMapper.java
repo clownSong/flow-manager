@@ -75,4 +75,11 @@ public interface FlowFolderMapper extends BaseMapper<FlowFolder> {
      * @return
      */
     Integer queryMaxSort(@Param("parentId") String parentId);
+
+    /**
+     * 模糊查询目录
+     * @param name 目录名称
+     * @return
+     */
+    List<FlowFolder> search(@Param("name") String name);
 }

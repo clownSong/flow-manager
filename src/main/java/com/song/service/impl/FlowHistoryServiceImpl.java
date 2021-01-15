@@ -34,7 +34,7 @@ public class FlowHistoryServiceImpl implements FlowHistoryService {
             }
             flowHistory.setName(flow.getName());
             flowHistory.setRemark(flow.getRemark());
-            flowHistory.setFolderId(flow.getFolder().getId());
+            flowHistory.setFolderId(flow.getFolderId());
             flowHistory.setViewId(flow.getViewId());
             if (StringUtils.isBlank(flowHistory.getId())) {
                 flowHistory.setId(UUID.randomUUID().toString());

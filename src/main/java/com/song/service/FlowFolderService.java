@@ -74,4 +74,11 @@ public interface FlowFolderService {
      * @return
      */
     Integer getMaxSort(String parentId);
+
+    /**
+     * 模糊查询目录
+     * @param name 目录名称
+     * @return
+     */
+    List<FlowFolder> search(String name);
 }

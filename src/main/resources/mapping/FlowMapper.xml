@@ -11,18 +11,19 @@
         <result column="person" property="person" jdbcType="NVARCHAR"></result>
         <result column="sort" property="sort" jdbcType="INTEGER"></result>
         <result column="is_stop" property="isStop" jdbcType="TINYINT"></result>
-        <association property="folder" column="folder_id"
-                     select="com.song.mapper.FlowFolderMapper.queryById"></association>
+        <result column="folder_id" property="folderId" jdbcType="VARCHAR"></result>
+
     </resultMap>
     <insert id="insert">
         insert into sdb_flow (id, name, remark, view_id, folder_id, datetime, person,sort,is_stop)
-        values (#{id},#{name},#{remark},#{viewId},#{folder.id},#{datetime},#{person},#{sort},#{isStop})
+        values (#{id},#{name},#{remark},#{viewId},#{folder_id},#{datetime},#{person},#{sort},#{isStop})
     </insert>
     <delete id="delete">
         delete from sdb_flow where id=#{id}
     </delete>
     <update id="update">
-        update sdb_flow set name=#{name},remark=#{remark},view_id=#{viewId},folder_id=#{folder.id},sort=#{sort},is_stop=#{isStop} where id=#{id};
+        update sdb_flow set name=#{name},remark=#{remark},view_id=#{viewId},folder_id=#{folderId},sort=#{sort},is_stop=#{isStop}
+        where id=#{id};
     </update>
     <select id="queryById" resultMap="flow">
         select * from sdb_flow where id=#{id};

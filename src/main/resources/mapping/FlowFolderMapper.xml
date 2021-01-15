@@ -39,4 +39,8 @@
             where parent_id=#{parentId}
         </if>
     </select>
+    <select id="search" resultMap="flowFolder">
+        select * from sdb_flow_folder
+        where name LIKE CONCAT('%',#{name},'%');
+    </select>
 </mapper>

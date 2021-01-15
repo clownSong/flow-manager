@@ -25,7 +25,7 @@ public class FlowServiceImplTest extends FlowManagerApplicationTest {
         entity.setPerson("小宋,1231");
         flowFolder = new FlowFolder();
         flowFolder.setId("bef35ce4-a009-4877-b3d8-d1309d945717");
-        entity.setFolder(flowFolder);
+        // entity.setFolder(flowFolder);
     }
 
     @Test

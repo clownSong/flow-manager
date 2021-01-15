@@ -1,5 +1,6 @@
 package com.song.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,10 +29,10 @@ public class Flow extends BaseEntity {
     @ApiModelProperty("绑定视图（可选）")
     private String viewId;
     /**
-     * 流程目录
+     * 目录id
      */
-    @ApiModelProperty(value = "流程目录", required = true)
-    private FlowFolder folder;
+    @ApiModelProperty(value = "目录id",required = true)
+    private String folderId;
     /**
      * 流程添加时间
      */
@@ -77,12 +78,12 @@ public class Flow extends BaseEntity {
         this.viewId = viewId;
     }
 
-    public FlowFolder getFolder() {
-        return folder;
+    public String getFolderId() {
+        return folderId;
     }
 
-    public void setFolder(FlowFolder folder) {
-        this.folder = folder;
+    public void setFolderId(String folderId) {
+        this.folderId = folderId;
     }
 
     public String getDatetime() {

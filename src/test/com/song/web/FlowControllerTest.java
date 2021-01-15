@@ -21,7 +21,7 @@ public class FlowControllerTest extends FlowManagerApplicationTest {
         flow.setRemark("备注信息");
         FlowFolder ff = new FlowFolder();
         ff.setId("4b1f0d0e-aca6-4ef2-bfa3-b77daf6fb1ea");
-        flow.setFolder(ff);
+        // flow.setFolder(ff);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class FlowControllerTest extends FlowManagerApplicationTest {
         param.put("name", flow.getName() + "2");
         param.put("person", flow.getPerson() + "2");
         param.put("remark", flow.getRemark() + "2");
-        param.put("folder.id", flow.getFolder().getId());
+        // param.put("folder.id", flow.getFolder().getId());
         post("/flowManager/flow", param);
     }
 
@@ -42,7 +42,7 @@ public class FlowControllerTest extends FlowManagerApplicationTest {
         param.put("name", flow.getName() + "-update");
         param.put("person", flow.getPerson());
         param.put("remark", flow.getRemark() + "-update");
-        param.put("folder.id", flow.getFolder().getId());
+        // param.put("folder.id", flow.getFolder().getId());
         param.put("id", "b72998f9-b678-4e3a-b924-3c7f0d95c8ab");
         param.put("viewId", "321");
         put("/flowManager/flow", param);
