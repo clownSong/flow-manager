@@ -40,7 +40,7 @@ public class FlowApproveController {
     @PostMapping("read")
     public Result updateRead(@RequestBody @ApiParam("必传项：id:'审批消息主键',state:1=审批消息已读，4=知会消息已读") FlowApprove approve) {
         int state = flowApproveService.updateReadDate(approve);
-        if (state > 0 && state < 400) {
+                if (state > 0 && state < 400) {
             return Result.success(flowApproveService.queryById(approve.getId()));
         }
         return Result.success(state, "更新失败,请检查参数是否有误(状态只能为1或者4)", approve);

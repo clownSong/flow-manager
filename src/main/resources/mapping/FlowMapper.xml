@@ -16,7 +16,7 @@
     </resultMap>
     <insert id="insert">
         insert into sdb_flow (id, name, remark, view_id, folder_id, datetime, person,sort,is_stop)
-        values (#{id},#{name},#{remark},#{viewId},#{folder_id},#{datetime},#{person},#{sort},#{isStop})
+        values (#{id},#{name},#{remark},#{viewId},#{folderId},#{datetime},#{person},#{sort},#{isStop})
     </insert>
     <delete id="delete">
         delete from sdb_flow where id=#{id}
