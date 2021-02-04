@@ -1,10 +1,7 @@
 package com.song.web;
 
-import com.kailismart.com.entity.Staff;
 import com.song.entity.Flow;
 import com.song.service.FlowService;
-import com.song.utils.Constant;
-import com.song.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -64,8 +61,6 @@ public class FlowController extends BaseController {
     @ApiOperation("添加流程")
     @PutMapping
     public Map<String, Object> insert(@RequestBody Flow flow) {
-        Staff user = ServletUtils.getLoginUser();
-        flow.setPerson(user.getId()+","+user.getName());
         return flowService.insert(flow);
     }
 

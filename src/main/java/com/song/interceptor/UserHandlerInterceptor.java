@@ -27,21 +27,24 @@ public class UserHandlerInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        try {
-            String token = httpServletRequest.getHeader("accept-token");
+       /* try {
+            String token = httpServletRequest.getHeader("Authorization");
+            if(StringUtils.isNotBlank(token)){
+                token = token.replace("Bearer ","");
+            }
             if (redisService.existsKey(token)) {
-                httpServletRequest.setAttribute("user",redisService.getValue(token));
                 return true;
             } else if (StringUtils.isNotBlank(token)) {
-                httpServletResponse.sendError(402, "accept-token已过期");
+                httpServletResponse.sendError(402, "Authorization已过期");
             } else {
-                httpServletResponse.sendError(402, "请在请求头中传入\"accept-token\"参数");
+                httpServletResponse.sendError(402, "请在请求头中传入\"Authorization\"参数");
             }
             return false;
         } catch (Exception e) {
             httpServletResponse.sendError(500, e.getLocalizedMessage());
             return false;
-        }
+        }*/
+        return true;
     }
 
     /**

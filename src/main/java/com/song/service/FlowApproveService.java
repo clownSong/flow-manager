@@ -118,10 +118,10 @@ public interface FlowApproveService {
     /**
      * 取消当前流程所有的审批人审批，已审批的除外
      *
-     * @param flowInstanceId 流程发起实例id
+     * @param approve 流程发起实例id
      * @return
      */
-    boolean cancel(String flowInstanceId);
+    boolean cancel(FlowApprove approve);
 
     /**
      * 通过流程实例获取审批消息集合
@@ -163,4 +163,10 @@ public interface FlowApproveService {
      * @return
      */
     CourseHistoryResultModel autoPass(FlowApprove approve);
+
+    /**
+     * 取消流程
+     * @param flowInstanceId
+     */
+    void cancel(String flowInstanceId,SystemPersonModel sendPerson);
 }
