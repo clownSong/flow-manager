@@ -66,4 +66,6 @@ public interface FlowInstanceService {
      * @return
      */
     FlowInstance queryById(String id);
+
+    void flowChange(FlowInstance instance, SystemPersonModel sendPerson);
 }

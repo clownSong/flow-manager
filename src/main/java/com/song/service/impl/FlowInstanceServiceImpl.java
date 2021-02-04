@@ -17,7 +17,12 @@ import com.song.model.SystemPersonModel;
 import com.song.service.*;
 import com.song.utils.DateUtils;
 import com.song.utils.EntityVerifyUtils;
+import com.song.utils.TokenUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -43,6 +48,8 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
     private FlowApproveService flowApproveService;
     @Resource
     private FlowService flowService;
+    @Autowired
+    private TokenUtils tokenUtils;
 
     @Override
     @Transactional
@@ -184,8 +191,7 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
 //            主流程取消
             flowInstanceMapper.updateById(instance);
 //            取消审批中的步骤状态
-            flowApproveService.cancel(flowInstanceId);
-            flowChange(instance);
+            flowApproveService.cancel(flowInstanceId,null);
         }
         return resultModel;
     }
@@ -201,7 +207,7 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
             instance.setState((byte) 2);
             flowInstanceMapper.updateById(instance);
             //回调流程变化api
-            flowChange(instance);
+            flowChange(instance,sendPerson);
             result.setMsg("流程审批完成");
         }
         return result;
@@ -233,16 +239,21 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
         return result;
     }
 
-    private void flowChange(FlowInstance instance) {
+    @Override
+    public void flowChange(FlowInstance instance,SystemPersonModel sendPerson) {
         RestTemplate restTemplate = new RestTemplate();
         String param = null;
         try {
-            param = "&flowId=" + URLDecoder.decode(instance.getId(), "UTF-8") + "&moduleId=" + instance.getModuleId() + "&moduleType=" + instance.getModuleTypeId() + "&state=" + instance.getState();
+            param = "&flowId=" + URLDecoder.decode(instance.getId(), "UTF-8") + "&moduleId=" + instance.getModuleId() + "&moduleType=" + instance.getModuleTypeId() + "&state=" + instance.getState()+"&sendUserId="+sendPerson.getId();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         try {
-            restTemplate.getForObject(instance.getChangeApi() + param, Object.class);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.add("Authorization",tokenUtils.getToken());
+            HttpEntity<String> requestEntity = new HttpEntity<String>(null, requestHeaders);
+            restTemplate.exchange(instance.getChangeApi() + param, HttpMethod.PUT,requestEntity,String.class);
+//            restTemplate.getForObject(instance.getChangeApi() + param, Object.class);
         } catch (Exception ignore) {
 
         }

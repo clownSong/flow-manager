@@ -177,15 +177,32 @@ public class FlowApproveServiceImpl implements FlowApproveService {
     }
 
     @Override
-    public boolean cancel(String flowInstanceId) {
+    public void cancel(String flowInstanceId,SystemPersonModel sendPerson) {
+        FlowInstance instance = flowInstanceService.queryById(flowInstanceId);
         List<FlowApprove> approves = queryByFlowInstanceId(flowInstanceId);
-        approves.forEach(approve -> {
-            if (approve.getState() <= 1) {
-                approve.setState((byte) 7);
-                approve.setApproveContent("主流程被取消");
-                updateState(approve);
+        approves.forEach(approve2 -> {
+            if (approve2.getState() <= 1) {
+                approve2.setState((byte) 7);
+                approve2.setApproveContent("主流程被取消");
+                updateState(approve2);
             }
         });
+        if(Objects.isNull(sendPerson)){
+            sendPerson = new SystemPersonModel();
+            sendPerson.setId(instance.getUserId());
+            sendPerson.setName(instance.getUserName());
+        }
+        flowInstanceService.flowChange(instance,sendPerson);
+    }
+
+    @Override
+    public boolean cancel(FlowApprove approve) {
+        SystemPersonModel sendPerson = new SystemPersonModel();
+        sendPerson.setId(approve.getAcceptUserId());
+        sendPerson.setName(approve.getAcceptUserName());
+        cancel(approve.getFlowInstanceId(),sendPerson);
+        approve.setState((byte) 5);
+        updateState(approve);
         return true;
     }
 
@@ -254,4 +271,6 @@ public class FlowApproveServiceImpl implements FlowApproveService {
         }
 
     }
+
+
 }

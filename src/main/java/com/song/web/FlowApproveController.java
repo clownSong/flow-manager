@@ -48,13 +48,13 @@ public class FlowApproveController {
 
     @ApiOperation(value = "审批通过", response = CourseHistoryResultModel.class)
     @PostMapping("pass")
-    public Result approve(FlowApprove approve) {
+    public Result approve(@RequestBody FlowApprove approve) {
         return Result.success(flowApproveService.autoPass(approve));
     }
 
     @ApiOperation("审批不通过（驳回）")
     @PostMapping("cancel")
-    public Result cancel(String flowInstanceId) {
-        return Result.success(flowApproveService.cancel(flowInstanceId));
+    public Result cancel(@RequestBody FlowApprove approve) {
+        return Result.success(flowApproveService.cancel(approve));
     }
 }
