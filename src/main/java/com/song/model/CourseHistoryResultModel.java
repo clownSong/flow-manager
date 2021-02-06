@@ -19,7 +19,7 @@ public class CourseHistoryResultModel {
      * 过程中的审批节点是否完成
      */
     @ApiModelProperty("过程中的审批节点是否完成")
-    private boolean isOk;
+    private boolean isOk = true;
     /**
      * 下一步审批节点是否为自由选人
      */

@@ -76,6 +76,8 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
                 if (!Objects.isNull(result.get("data"))) {
                     FlowHistory flowHistory = (FlowHistory) result.get("data");
                     flowInstance.setFlowHistoryId(flowHistory.getId());
+//                    添加流程发起实例
+                    insertFlowInstance(flowInstance);
 //                    添加流程过程记录实例
                     List<Course> courses = courseService.queryByFlowId(flowInstanceModel.getFlow().getId());
                     courses.forEach(course -> {
@@ -95,8 +97,7 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
                             }*/
                         }
                     });
-//                    添加流程发起实例
-                    insertFlowInstance(flowInstance);
+
                 } else {
                     setResultMsg(startFlowInstanceModel, result);
                 }

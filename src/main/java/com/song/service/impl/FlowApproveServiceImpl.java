@@ -1,5 +1,6 @@
 package com.song.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,7 +18,10 @@ import com.song.model.SystemPersonModel;
 import com.song.service.*;
 import com.song.utils.DateUtils;
 import com.song.utils.EntityVerifyUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +40,7 @@ public class FlowApproveServiceImpl implements FlowApproveService {
     private CoursePersonHistoryService coursePersonHistoryService;
     @Resource
     private FlowInstanceService flowInstanceService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public FlowApprove insert(FlowApprove approve) {
@@ -231,7 +236,15 @@ public class FlowApproveServiceImpl implements FlowApproveService {
 
         QueryWrapper queryWrapper = Wrappers.<FlowApprove>query();
         if (type != null) {
-            queryWrapper.in("state", type);
+            List<Byte> states = new ArrayList<>(type.length);
+            for (int i = 0; i < type.length; i++) {
+                logger.debug("type:"+type[i]);
+                states.add(type[i]);
+            }
+
+            logger.debug("type json:"+JSONObject.toJSONString(states));
+
+            queryWrapper.in("state",states);
         }
         if (StringUtils.isNotBlank(model.getUserId())) {
             queryWrapper.eq("accept_user_id", model.getUserId());
