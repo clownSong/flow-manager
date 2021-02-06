@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryService {
@@ -35,6 +36,7 @@ public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryServic
         verify.put("courseId", "过程记录id不能为空");
         verify = EntityVerifyUtils.verifyString(verify, coursePersonHistory);
         if (verify.isEmpty()) {
+            coursePersonHistory.setId(UUID.randomUUID().toString());
             coursePersonHistoryMapper.insert(coursePersonHistory);
         } else {
             log.warn("添加审批人员记录失败：" + verify.toString());

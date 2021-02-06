@@ -16,6 +16,8 @@ import java.util.Objects;
 public class TokenUtils {
     @Value("${flow-manager.client-url}")
     private String url;
+    @Value("${flow-manager.token-verify}")
+    private String tokenVerify;
     public static String token;
 
     /**
@@ -24,6 +26,9 @@ public class TokenUtils {
      * @return
      */
     public synchronized String getToken() throws Exception {
+        if("0".equals(tokenVerify)){
+            return "";
+        }
         if (!Objects.isNull(token)) {
             if (verifyToken(token)) {
                 return token;

@@ -16,7 +16,7 @@ import java.util.Objects;
 public class HandlerExceptionImpl implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-
+        e.printStackTrace();
         try {
             httpServletResponse.setContentType("application/json;charset=utf-8");
             OutputStream os = httpServletResponse.getOutputStream();
