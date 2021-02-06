@@ -62,17 +62,17 @@ public interface CoursePersonService<T> {
     /**
      * 获取具体的审批人员集合
      *
-     * @param courseId 过程id
+     * @param pointId 人员信息唯一主键
+     * @param userId  发起人
      * @return
      */
-    List<T> getPersonList(String courseId);
+    List<SystemPersonModel> getPersonList(String pointId, String userId);
 
     /**
-     * 获取具体的审批人员集合
-     *
-     * @param pointId 人员信息唯一主键
-     * @param type    人员类型
+     * 获取人员列表
+     * @param pointId 过程人员标识
+     * @param type 人员类型
      * @return
      */
-    List<SystemPersonModel> getPersonList(String pointId, String type);
+    List<SystemPersonModel> getPersonListByType(String pointId, String type);
 }

@@ -92,7 +92,9 @@ public class FlowApproveServiceImpl implements FlowApproveService {
         ArrayList<FlowApprove> approveList = new ArrayList<>();
         List<CoursePerson> people = coursePersonService.queryByCourse(courseId);
         people.forEach(coursePerson -> {
-            List person = coursePersonService.getPersonList(courseId);
+            String pointId = coursePerson.getPointId();
+            pointId = Objects.isNull(pointId) ? flowInstance.getUserId() : pointId;
+            List person = coursePersonService.getPersonListByType(pointId,coursePerson.getType()+"");
             insertFlowApprove(flowInstance, courseHistoryId, approveList, person);
         });
         return approveList;
@@ -161,8 +163,11 @@ public class FlowApproveServiceImpl implements FlowApproveService {
     @Override
     public void insertByCourseHistoryId(String courseHistoryId, String flowInstanceId, SystemPersonModel sendPerson) {
         List<CoursePersonHistory> coursePersonHistories = coursePersonHistoryService.queryByCourseHistoryId(courseHistoryId);
+        FlowInstance instance = flowInstanceService.queryById(flowInstanceId);
         for (int i = 0; i < coursePersonHistories.size(); i++) {
-            List<SystemPersonModel> persons = coursePersonService.getPersonList(coursePersonHistories.get(i).getPointId(), coursePersonHistories.get(i).getType() + "");
+            String pointId = coursePersonHistories.get(i).getPointId();
+            pointId = Objects.isNull(pointId) ? instance.getUserId() : pointId;
+            List<SystemPersonModel> persons = coursePersonService.getPersonListByType(pointId, coursePersonHistories.get(i).getType() + "");
             persons.forEach(p -> {
                 FlowApprove flowApprove = new FlowApprove();
                 flowApprove.setSendUserId(sendPerson.getId());
@@ -257,8 +262,9 @@ public class FlowApproveServiceImpl implements FlowApproveService {
         Map<String, Object> result = pass(approve);
         if (result.isEmpty()) {
             SystemPersonModel sendPerson = new SystemPersonModel();
-            sendPerson.setId(approve.getAcceptUserId());
-            sendPerson.setName(approve.getAcceptUserName());
+            FlowApprove dba = flowApproveMapper.selectById(approve.getId());
+            sendPerson.setId(dba.getAcceptUserId());
+            sendPerson.setName(dba.getAcceptUserName());
             return courseHistoryService.goNext(approve.getCourseHistoryId(), approve.getFlowInstanceId(), sendPerson);
         } else {
             CourseHistoryResultModel chm = new CourseHistoryResultModel();
@@ -269,7 +275,6 @@ public class FlowApproveServiceImpl implements FlowApproveService {
             });
             return chm;
         }
-
     }
 
 

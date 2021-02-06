@@ -12,8 +12,8 @@
         <result column="course_id" property="courseId" jdbcType="VARCHAR"></result>
     </resultMap>
     <insert id="insert">
-        insert into sdb_course_person (id, name, type, point_id, date_time, course_id)
-        values (#{id},#{name},#{type},#{pointId},#{datetime},#{courseId});
+        insert into sdb_course_person (id, name, type, point_id, date_time, course_id,dispose)
+        values (#{id},#{name},#{type},#{pointId},#{datetime},#{courseId},#{dispose});
     </insert>
     <update id="update">
         update sdb_course_person set name=#{name},type=#{type},point_id=#{pointId},

@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryService {
@@ -30,11 +31,12 @@ public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryServic
         Map<String, Object> verify = new HashMap<>(16);
         verify.put("name", "请指定处理人名称");
         verify.put("type", "请指定处理对象类型");
-        verify.put("pointId", "请指定处理对象唯一主键");
+//        verify.put("pointId", "请指定处理对象唯一主键");
         verify.put("dispose", "请指定处理方式");
         verify.put("courseId", "过程记录id不能为空");
         verify = EntityVerifyUtils.verifyString(verify, coursePersonHistory);
         if (verify.isEmpty()) {
+            coursePersonHistory.setId(UUID.randomUUID().toString());
             coursePersonHistoryMapper.insert(coursePersonHistory);
         } else {
             log.warn("添加审批人员记录失败：" + verify.toString());
@@ -63,7 +65,7 @@ public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryServic
     @Override
     public List<CoursePersonHistory> queryByCourseHistoryId(String courseHistoryId) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("course_history_id", courseHistoryId);
+        queryWrapper.eq("course_id", courseHistoryId);
         return coursePersonHistoryMapper.selectList(queryWrapper);
     }
 
