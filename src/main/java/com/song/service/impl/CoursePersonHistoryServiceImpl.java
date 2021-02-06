@@ -31,7 +31,7 @@ public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryServic
         Map<String, Object> verify = new HashMap<>(16);
         verify.put("name", "请指定处理人名称");
         verify.put("type", "请指定处理对象类型");
-        verify.put("pointId", "请指定处理对象唯一主键");
+//        verify.put("pointId", "请指定处理对象唯一主键");
         verify.put("dispose", "请指定处理方式");
         verify.put("courseId", "过程记录id不能为空");
         verify = EntityVerifyUtils.verifyString(verify, coursePersonHistory);
@@ -65,7 +65,7 @@ public class CoursePersonHistoryServiceImpl implements CoursePersonHistoryServic
     @Override
     public List<CoursePersonHistory> queryByCourseHistoryId(String courseHistoryId) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("course_history_id", courseHistoryId);
+        queryWrapper.eq("course_id", courseHistoryId);
         return coursePersonHistoryMapper.selectList(queryWrapper);
     }
 

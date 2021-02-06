@@ -5,11 +5,14 @@ create table sdb_course_history
     remark           varchar(2000),
     overtime         int,
     overtime_dispose int,
+    course_id varchar(40),
     parent_course_id varchar(40),
-    flow_id          varchar(40),
+    flow_history_id          varchar(40),
     is_judge         tinyint,
     is_freedom       tinyint,
     is_countersign   tinyint,
+    postion_x        decimal(10,2),
+    postion_y        decimal(10,2),
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='过程记录表';
 
@@ -93,7 +96,7 @@ create table sdb_course_person
 create table sdb_flow_approve
 (
     id                varchar(40) not null,
-    flow_instace_id   varchar(40) not null,
+    flow_instance_id   varchar(40) not null,
     course_history_id varchar(40) not null,
     send_user_id      varchar(40),
     send_user_name    varchar(100),

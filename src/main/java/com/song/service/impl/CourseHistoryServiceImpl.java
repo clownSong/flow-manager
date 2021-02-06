@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.song.entity.Course;
 import com.song.entity.CourseHistory;
 import com.song.entity.CoursePerson;
+import com.song.entity.FlowInstance;
 import com.song.mapper.CourseHistoryMapper;
 import com.song.model.CourseHistoryListModel;
 import com.song.model.CourseHistoryResultModel;
@@ -54,13 +55,16 @@ public class CourseHistoryServiceImpl implements CourseHistoryService {
     public CourseHistory insertByCourse(Course course, String historyId) {
         CourseHistory courseHistory = new CourseHistory();
         BeanUtils.copyProperties(course, courseHistory);
+        courseHistory.setCourseId(course.getId());
         courseHistory.setId(null);
         courseHistory.setFlowHistoryId(historyId);
         courseHistory = insert(courseHistory);
         if (Objects.nonNull(courseHistory)) {
 //                添加过程中审批人员
             List<CoursePerson> coursePersons = coursePersonService.queryByCourse(course.getId());
-            coursePersons.forEach(coursePerson -> {
+            for (int i = 0; i < coursePersons.size(); i++) {
+                CoursePerson coursePerson = coursePersons.get(i);
+                coursePerson.setCourseId(courseHistory.getId());
                 if (Objects.isNull(coursePersonHistoryService.insertByPerson(coursePerson))) {
                     log.error("添加过程人员记录失败");
                 }/*else{
@@ -68,7 +72,7 @@ public class CourseHistoryServiceImpl implements CourseHistoryService {
 
                         }
                     }*/
-            });
+            }
 //                添加过程中判断条件
 
         }
@@ -91,7 +95,7 @@ public class CourseHistoryServiceImpl implements CourseHistoryService {
     public CourseHistoryResultModel goNext(String courseHistoryId, String flowInstanceId, SystemPersonModel sendPerson) {
         CourseHistory courseHistory = queryById(courseHistoryId);
         CourseHistoryResultModel result = new CourseHistoryResultModel();
-        if (!Objects.isNull(courseHistory)) {
+        if (Objects.isNull(courseHistory)) {
             result.setOk(false);
             result.setMsg("指定的过程记录不存在");
         } else {
@@ -99,7 +103,7 @@ public class CourseHistoryServiceImpl implements CourseHistoryService {
                 //需要会签，判断该节点下所有的审批节点是否全部同意
                 if (flowApproveService.isApprove(courseHistoryId)) {
                     //全部通过
-                    return next(courseHistoryId, flowInstanceId, sendPerson);
+                    return next(courseHistory, flowInstanceId, sendPerson);
                 } else {
                     //未全部通过
                     result.setMsg("会签流程，尚未全部通过审批");
@@ -107,27 +111,29 @@ public class CourseHistoryServiceImpl implements CourseHistoryService {
                     return result;
                 }
             } else {
-                return next(courseHistoryId, flowInstanceId, sendPerson);
+                return next(courseHistory, flowInstanceId, sendPerson);
             }
         }
         return result;
     }
 
     /**
-     * 下一步流程
+     * 下一步过程
      *
-     * @param courseHistoryId
+     * @param courseHistory 当前审批过程
      * @return
      */
-    private CourseHistoryResultModel next(String courseHistoryId, String flowInstanceId, SystemPersonModel sendPerson) {
+    private CourseHistoryResultModel next(CourseHistory courseHistory, String flowInstanceId, SystemPersonModel sendPerson) {
         CourseHistoryResultModel result = new CourseHistoryResultModel();
-        List<CourseHistory> courseHistoryList = queryByParentId(courseHistoryId);
+        FlowInstance instance = flowInstanceService.queryById(flowInstanceId);
+        List<CourseHistory> courseHistoryList = queryByParentId(courseHistory.getCourseId(),instance.getFlowHistoryId());
         if (courseHistoryList.isEmpty()) {
             //步骤全部审批完成
             flowInstanceService.success(flowInstanceId, sendPerson);
         } else if (courseHistoryList.size() == 1) {
+            CourseHistory nextCourse = courseHistoryList.get(0);
             //调用审批消息新增服务
-            flowApproveService.insertByCourseHistoryId(courseHistoryId, flowInstanceId, sendPerson);
+            flowApproveService.insertByCourseHistoryId(nextCourse.getId(), flowInstanceId, sendPerson);
         } else {
             //有条件判断的过程
         }
@@ -135,10 +141,13 @@ public class CourseHistoryServiceImpl implements CourseHistoryService {
     }
 
     @Override
-    public List<CourseHistory> queryByParentId(String courseHistoryId) {
-        CourseHistory history = new CourseHistory();
-        history.setParentCourseId(courseHistoryId);
-        return courseHistoryMapper.selectList(new QueryWrapper<CourseHistory>().lambda().eq(CourseHistory::getParentCourseId, history.getParentCourseId()));
+    public List<CourseHistory> queryByParentId(String courseHistoryId,String flowHistoryId) {
+        QueryWrapper<CourseHistory> queryWrapper = new QueryWrapper();
+        queryWrapper.lambda().eq(CourseHistory::getFlowHistoryId,flowHistoryId);
+        queryWrapper.lambda().and(param->{
+            param.eq(CourseHistory::getParentCourseId,courseHistoryId);
+        });
+        return courseHistoryMapper.selectList(queryWrapper);
     }
 
     @Override

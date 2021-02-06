@@ -60,9 +60,10 @@ public interface CourseHistoryService {
      * 根据上一步骤，获取下一步流程集合
      *
      * @param courseHistoryId 上级步骤id
+     * @param flowHistoryId 流程记录id
      * @return
      */
-    List<CourseHistory> queryByParentId(String courseHistoryId);
+    List<CourseHistory> queryByParentId(String courseHistoryId,String flowHistoryId);
 
     /**
      * 根据流程记录id删除审批过程记录

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.song.model.SystemPersonModel;
 import com.song.service.SystemPersonService;
 import com.song.utils.TokenUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -33,7 +34,10 @@ public class SystemPersonServiceImpl implements SystemPersonService {
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.add("Authorization",tokenUtils.getToken());
             HttpEntity<String> requestEntity = new HttpEntity<String>(null, requestHeaders);
-            ResponseEntity result = restTemplate.exchange(systemPersonUrl+ "?id=" + URLEncoder.encode(id, "UTF-8") + "&type=" + type, HttpMethod.GET,requestEntity,String.class);
+            if(StringUtils.isNotBlank(id)){
+                id = URLEncoder.encode(id, "UTF-8");
+            }
+            ResponseEntity result = restTemplate.exchange(systemPersonUrl+ "?id=" + id + "&type=" + type, HttpMethod.GET,requestEntity,String.class);
             if(result.getStatusCode() == HttpStatus.OK){
                 JsonMapper jsonMapper = new JsonMapper();
                 Map<String, Object> r = jsonMapper.readValue(result.getBody().toString(), Map.class);

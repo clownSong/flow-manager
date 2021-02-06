@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -112,7 +113,7 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
         startFlowInstanceModel.setFreedom(true);
         startFlowInstanceModel.setMsg("自由选择审批，请先指定审批人!");
         startFlowInstanceModel.setFirstCourse(course);
-        startFlowInstanceModel.setFreedomElementArray(coursePersonService.getPersonList(course.getId()));
+        startFlowInstanceModel.setFreedomElementArray(coursePersonService.getPersonList(course.getId(), startFlowInstanceModel.getFlowInstance().getUserId()));
     }
 
     private void setResultMsg(StartFlowInstanceModel startFlowInstanceModel, Map<String, Object> verifyParam) {
@@ -191,7 +192,24 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
 //            主流程取消
             flowInstanceMapper.updateById(instance);
 //            取消审批中的步骤状态
-            flowApproveService.cancel(flowInstanceId,null);
+            flowApproveService.cancel(flowInstanceId, null);
+        }
+        return resultModel;
+    }
+
+    @Override
+    public StartFlowInstanceModel updateState(String flowInstanceId) {
+        FlowInstance instance = flowInstanceMapper.selectById(flowInstanceId);
+        StartFlowInstanceModel resultModel = new StartFlowInstanceModel();
+        if (Objects.isNull(instance)) {
+            resultModel.setMsg("流程不存在");
+        } else if (instance.getState() == 2) {
+            resultModel.setMsg("流程已审批完成");
+        } else {
+            instance.setState((byte) 5);
+            resultModel.setMsg("操作成功");
+//            主流程取消
+            flowInstanceMapper.updateById(instance);
         }
         return resultModel;
     }
@@ -207,7 +225,7 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
             instance.setState((byte) 2);
             flowInstanceMapper.updateById(instance);
             //回调流程变化api
-            flowChange(instance,sendPerson);
+            flowChange(instance, sendPerson);
             result.setMsg("流程审批完成");
         }
         return result;
@@ -240,19 +258,27 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
     }
 
     @Override
-    public void flowChange(FlowInstance instance,SystemPersonModel sendPerson) {
+    public void flowChange(FlowInstance instance, SystemPersonModel sendPerson) {
         RestTemplate restTemplate = new RestTemplate();
         String param = null;
         try {
-            param = "&flowId=" + URLDecoder.decode(instance.getId(), "UTF-8") + "&moduleId=" + instance.getModuleId() + "&moduleType=" + instance.getModuleTypeId() + "&state=" + instance.getState()+"&sendUserId="+sendPerson.getId();
+            param = "?flowId=" + URLDecoder.decode(instance.getId(), "UTF-8") + "&moduleId=" + instance.getModuleId() + "&moduleType=" + instance.getModuleTypeId() + "&state=" + instance.getState() + "&sendUserId=" + sendPerson.getId();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         try {
+//            b7d2d6f2-7451-4c40-a5c7-556525fe0235
             HttpHeaders requestHeaders = new HttpHeaders();
-            requestHeaders.add("Authorization",tokenUtils.getToken());
-            HttpEntity<String> requestEntity = new HttpEntity<String>(null, requestHeaders);
-            restTemplate.exchange(instance.getChangeApi() + param, HttpMethod.PUT,requestEntity,String.class);
+            requestHeaders.add("Authorization", tokenUtils.getToken());
+            requestHeaders.add("Content-Type", "application/json;charset=UTF-8");
+            Map<String, String> params = new HashMap<>();
+            params.put("flowId", URLDecoder.decode(instance.getId(), "UTF-8"));
+            params.put("moduleId", instance.getModuleId());
+            params.put("moduleType", instance.getModuleTypeId());
+            params.put("state", instance.getState() + "");
+            params.put("sendUserId", sendPerson.getId());
+            HttpEntity<Map> requestEntity = new HttpEntity<Map>(params, requestHeaders);
+            restTemplate.exchange(instance.getChangeApi() + param, HttpMethod.PUT, requestEntity, String.class);
 //            restTemplate.getForObject(instance.getChangeApi() + param, Object.class);
         } catch (Exception ignore) {
 

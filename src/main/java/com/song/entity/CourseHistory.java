@@ -31,7 +31,8 @@ public class CourseHistory extends BaseEntity {
     private float postionX;
     @ApiModelProperty("流程Y位置")
     private float postionY;
-
+    @ApiModelProperty("过程id")
+    private String courseId;
     @Override
     public String getId() {
         return id;
@@ -128,5 +129,13 @@ public class CourseHistory extends BaseEntity {
 
     public void setPostionY(float postionY) {
         this.postionY = postionY;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 }

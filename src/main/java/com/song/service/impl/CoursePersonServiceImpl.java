@@ -93,17 +93,17 @@ public class CoursePersonServiceImpl extends BaseServiceImplAbstract implements 
     }
 
     @Override
-    public List<SystemPersonModel> getPersonList(String courseId) {
+    public List<SystemPersonModel> getPersonList(String courseId,String userId) {
         final ArrayList<SystemPersonModel> personModels = new ArrayList<>();
         List<CoursePerson> coursePeople = queryByCourse(courseId);
         coursePeople.forEach(coursePerson -> {
-            personModels.addAll(getPersonList(coursePerson.getPointId(), coursePerson.getType() + ""));
+            personModels.addAll(getPersonListByType(Objects.isNull(coursePerson.getPointId()) ? userId : coursePerson.getPointId(), coursePerson.getType() + ""));
         });
         return personModels;
     }
 
     @Override
-    public List<SystemPersonModel> getPersonList(String pointId, String type) {
+    public List<SystemPersonModel> getPersonListByType(String pointId, String type) {
         return systemPersonService.getByPerson(pointId, type);
     }
 }
