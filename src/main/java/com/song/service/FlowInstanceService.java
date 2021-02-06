@@ -44,6 +44,13 @@ public interface FlowInstanceService {
     StartFlowInstanceModel cancel(String id);
 
     /**
+     * 驳回流程
+     * @param flowInstanceId
+     * @return
+     */
+    StartFlowInstanceModel updateState(String flowInstanceId);
+
+    /**
      * 审批完成
      *
      * @param id         主键

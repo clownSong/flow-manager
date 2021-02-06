@@ -197,6 +197,8 @@ public class FlowApproveServiceImpl implements FlowApproveService {
             sendPerson.setId(instance.getUserId());
             sendPerson.setName(instance.getUserName());
         }
+        flowInstanceService.updateState(instance.getId());
+        //通知回调
         flowInstanceService.flowChange(instance,sendPerson);
     }
 
@@ -205,9 +207,9 @@ public class FlowApproveServiceImpl implements FlowApproveService {
         SystemPersonModel sendPerson = new SystemPersonModel();
         sendPerson.setId(approve.getAcceptUserId());
         sendPerson.setName(approve.getAcceptUserName());
-        cancel(approve.getFlowInstanceId(),sendPerson);
         approve.setState((byte) 5);
         updateState(approve);
+        cancel(approve.getFlowInstanceId(),sendPerson);
         return true;
     }
 

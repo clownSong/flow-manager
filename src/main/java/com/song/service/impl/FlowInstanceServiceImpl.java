@@ -198,6 +198,23 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
     }
 
     @Override
+    public StartFlowInstanceModel updateState(String flowInstanceId) {
+        FlowInstance instance = flowInstanceMapper.selectById(flowInstanceId);
+        StartFlowInstanceModel resultModel = new StartFlowInstanceModel();
+        if (Objects.isNull(instance)) {
+            resultModel.setMsg("流程不存在");
+        } else if (instance.getState() == 2) {
+            resultModel.setMsg("流程已审批完成");
+        } else {
+            instance.setState((byte) 5);
+            resultModel.setMsg("操作成功");
+//            主流程取消
+            flowInstanceMapper.updateById(instance);
+        }
+        return resultModel;
+    }
+
+    @Override
     public StartFlowInstanceModel success(String flowInstanceId, SystemPersonModel sendPerson) {
         FlowInstance instance = queryById(flowInstanceId);
         StartFlowInstanceModel result = new StartFlowInstanceModel();
@@ -253,7 +270,7 @@ public class FlowInstanceServiceImpl extends ServiceImpl<FlowInstanceMapper, Flo
 //            b7d2d6f2-7451-4c40-a5c7-556525fe0235
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.add("Authorization", tokenUtils.getToken());
-            requestHeaders.add("Content-Type","application/json;charset=UTF-8");
+            requestHeaders.add("Content-Type", "application/json;charset=UTF-8");
             Map<String, String> params = new HashMap<>();
             params.put("flowId", URLDecoder.decode(instance.getId(), "UTF-8"));
             params.put("moduleId", instance.getModuleId());

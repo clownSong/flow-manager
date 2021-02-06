@@ -63,7 +63,7 @@ public class FlowInstance extends BaseEntity {
     /**
      * 当前流程状态
      */
-    @ApiModelProperty("当前流程状态:1=审批中,2=已完成,3=已读,4=取消")
+    @ApiModelProperty("当前流程状态:1=审批中,2=已完成,3=已读,4=取消，5=驳回")
     private byte state;
     /**
      * 流程状态变化时回调地址
