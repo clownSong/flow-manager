@@ -25,6 +25,7 @@ public class StartFlowInstanceModel<T> {
     @ApiModelProperty("是否自由选人")
     private boolean isFreedom;
     @ApiModelProperty("自由选人集合元素")
+    
     private List<T> freedomElementArray;
     @ApiModelProperty("提示信息")
     private String msg;
