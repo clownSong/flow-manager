@@ -1,9 +1,9 @@
-package com.song.web;
+package com.yskj.web;
 
-import com.song.FlowManagerApplicationTest;
-import com.song.entity.Flow;
-import com.song.entity.FlowInstance;
-import com.song.model.FlowInstanceModel;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.entity.Flow;
+import com.yskj.entity.FlowInstance;
+import com.yskj.model.FlowInstanceModel;
 import org.junit.Test;
 
 import java.util.HashMap;

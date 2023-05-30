@@ -1,8 +1,8 @@
-package com.song.web;
+package com.yskj.web;
 
-import com.song.FlowManagerApplicationTest;
-import com.song.entity.Flow;
-import com.song.entity.FlowFolder;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.entity.Flow;
+import com.yskj.entity.FlowFolder;
 import org.junit.Before;
 import org.junit.Test;
 

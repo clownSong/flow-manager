@@ -152,7 +152,7 @@
 <!--                </dependencies>-->
                 <!--这里写上main方法所在类的路径-->
                 <!--<configuration>
-                    <mainClass>com.song.RgJfApplication</mainClass>
+                    <mainClass>com.yskj.RgJfApplication</mainClass>
                 </configuration>-->
             </plugin>
         </plugins>

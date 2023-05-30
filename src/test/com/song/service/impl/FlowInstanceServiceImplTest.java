@@ -1,10 +1,10 @@
-package com.song.service.impl;
+package com.yskj.service.impl;
 
-import com.song.FlowManagerApplicationTest;
-import com.song.entity.Flow;
-import com.song.entity.FlowInstance;
-import com.song.model.FlowInstanceModel;
-import com.song.service.FlowInstanceService;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.entity.Flow;
+import com.yskj.entity.FlowInstance;
+import com.yskj.model.FlowInstanceModel;
+import com.yskj.service.FlowInstanceService;
 import org.junit.Test;
 
 import javax.annotation.Resource;

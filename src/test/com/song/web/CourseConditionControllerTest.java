@@ -1,7 +1,7 @@
-package com.song.web;
+package com.yskj.web;
 
-import com.song.FlowManagerApplicationTest;
-import com.song.entity.CourseCondition;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.entity.CourseCondition;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
-package com.song.service.impl;
+package com.yskj.service.impl;
 
-import com.song.FlowManagerApplicationTest;
-import com.song.entity.CoursePerson;
-import com.song.service.CoursePersonService;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.entity.CoursePerson;
+import com.yskj.service.CoursePersonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.song.web;
+package com.yskj.web;
 
-import com.song.FlowManagerApplicationTest;
+import com.yskj.FlowManagerApplicationTest;
 import org.junit.Test;
 
 import java.util.HashMap;

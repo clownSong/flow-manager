@@ -1,8 +1,8 @@
-package com.song;
+package com.yskj;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.song.entity.BaseEntity;
+import com.yskj.entity.BaseEntity;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -30,4 +30,4 @@ flow-manager:
   get-person-url: http://192.168.2.254:8089/pm2/api/getSystemPerson
 logging:
   level:
-    com.song: debug
+    com.yskj: debug

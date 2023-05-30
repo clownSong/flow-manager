@@ -1,9 +1,9 @@
-package com.song.service.impl;
+package com.yskj.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.song.FlowManagerApplicationTest;
-import com.song.entity.FlowFolder;
-import com.song.service.FlowFolderService;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.entity.FlowFolder;
+import com.yskj.service.FlowFolderService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

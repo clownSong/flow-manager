@@ -1,8 +1,8 @@
-package com.song.service.impl;
+package com.yskj.service.impl;
 
-import com.song.FlowManagerApplicationTest;
-import com.song.model.SystemPersonModel;
-import com.song.service.SystemPersonService;
+import com.yskj.FlowManagerApplicationTest;
+import com.yskj.model.SystemPersonModel;
+import com.yskj.service.SystemPersonService;
 import org.junit.Test;
 
 import javax.annotation.Resource;
